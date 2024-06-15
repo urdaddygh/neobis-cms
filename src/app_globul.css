@@ -1,0 +1,107 @@
+@import './styles/variables.css';
+
+@font-face {
+  font-family: 'inter';
+  src: url(./fonts/Inter-Bold.ttf);
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'inter';
+  src: url(./fonts/Inter-Light.ttf);
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'inter';
+  src: url(./fonts/Inter-Medium.ttf);
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'inter';
+  src: url(./fonts/Inter-Regular.ttf);
+  font-weight: 400;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  font-family: "inter";
+  -moz-box-sizing: border-box;/* Для Firefox */
+  box-sizing: border-box;
+  font-size: 16px;
+  border:none;
+}
+body{
+  background-color: #F0F0F0;
+}
+.container{
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Меняет скролл */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 35px;
+}
+
+/* Выключает фокус на бордерах при нажатии */
+:active,
+:hover,
+:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+#popup{
+  color: white;
+  border-radius: 16px;
+  background-color:#F34545;
+  width: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.sublink_cont{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 20px;
+  align-items: center;
+}
+.active_sublink{
+  color: var(--main-color);
+  font-weight: bold;
+  margin-right: 40px;
+  height: 27px;
+  border-bottom: var(--main-color) 2.5px solid;
+  border-radius: 1px;
+  white-space: nowrap;
+
+}
+.unactive_sublink{
+  color: #4254EC;
+  font-weight: bold;
+  margin-right: 40px;
+  white-space: nowrap;
+  height: 27px;
+
+}
+.default_cont{
+  box-shadow: 0 0 16px rgba(44, 44, 44, 0.15);
+  border-radius: 35px;
+  padding-bottom: 100px;
+  position: relative;
+  background-color: var(--main-color);
+  min-height: 75vh;
+  margin-top: 20px;
+}

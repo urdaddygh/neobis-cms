@@ -1,0 +1,38 @@
+header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon{
+    display: flex;
+    align-items: center;
+}
+.icon img{
+    width: 90px;
+}
+.icon h1{
+    margin-left: 8px;
+    white-space: nowrap;
+}
+.cont_profile {
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    background-color: var(--main-color);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-right: 12px;
+}
+.box{
+    display: flex;
+    align-items: center;
+}
+.box span{
+    text-align: right;
+    font-size: 18px;
+    margin: 0 12px 0 16px;
+}
+.box span h6{
+    font-weight: 500;
+}

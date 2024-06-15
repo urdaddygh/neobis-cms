@@ -1,0 +1,35 @@
+
+.cross_icon {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.up_p{
+    position: absolute;
+    left: 100px;
+    top: 16px;
+    font-weight: 600;
+}
+h3{
+    font-size: 20px;
+    color: #C0C0C0;
+    margin-top: 32px;
+    margin-bottom: 26px;
+}
+.text_btn{
+    font-weight: 500;
+    cursor: pointer;
+}
+.flex_cont{
+    margin-top: 33px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 0 10px;
+    cursor: pointer;
+}

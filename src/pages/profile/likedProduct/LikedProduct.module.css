@@ -1,0 +1,60 @@
+.h2{
+    font-size: 18px;
+    color: #494949;
+    align-items: center;
+    text-align: center;
+
+}
+.empty_icon{
+    margin: 305px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.cont{
+    display: flex;
+    justify-content:flex-start;
+    flex-wrap: wrap;
+    margin-top: 87px;
+}
+.product_card {
+    width: 154px;
+    height: 184px;
+    background-color: #FFFF;
+    border-radius: 12px;
+    padding: 6px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+
+.product_card h4 {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 4px;
+    height: 34px;
+}
+
+.product_card p {
+    font-weight: 500;
+    font-size: 14px;
+    color: #5D5FEF;
+    margin-bottom: 4px;
+}
+
+.product_card span {
+    font-weight: 400px;
+    color: #C1C1C1;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.heart_icon {
+    align-items: center;
+    display: flex;
+}
+.heart{
+    cursor: pointer;
+}

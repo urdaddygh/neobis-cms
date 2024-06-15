@@ -1,0 +1,71 @@
+.dropdown_container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .dropdown_input {
+    display: block;
+    width: 100%;
+    padding: 0 10px;
+    line-height: 40px;
+    background: none;
+    border-width: 0;
+    border-bottom: 2px solid #C0C0C0;
+    transition: all 0.2s ease;
+    width: 335px;
+    color: black;
+  }
+  .dropdown_input::placeholder {
+    padding: 0px 0px;
+  }
+  .dropdown_menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 0 0 4px 4px;
+  }
+  
+  .dropdown_item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .dropdown_item:hover {
+    background-color: #f0f0f0;
+  }
+  .dropdown_container label {
+     position: absolute;
+     left: 0px;
+     color: #9d959d;
+     /* font-size: 20px; */
+     font-weight: 300;
+     transform: translateY(-30px);
+     transition: all 0.2s ease;
+  }
+  .dropdown_container input:focus {
+     outline: 0;
+  }
+  .dropdown_container input:focus+label, .form_row input:valid+label {
+     transform: translateY(-60px);
+     margin-left: -5px;
+     font-size: 14px;
+     font-weight: 400;
+     outline: 0;
+  }
+  .dropdown_container .label_active, .form_row input:valid+.label_active{
+    transform: translateY(-60px);
+     margin-left: -5px;
+     font-size: 14px;
+     font-weight: 400;
+     outline: 0;
+  }

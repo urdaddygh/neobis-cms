@@ -1,0 +1,45 @@
+.box_cont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 13px;
+}
+
+.box_btn {
+    width: 74px;
+    height: 74px;
+    border-radius: 8px;
+    border: 1px solid #F7F7F866;
+    box-shadow: 0px 2px 2px 0px #50555C1A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+.box_btn p{
+    font-size: 10px;
+    margin-top: 6px;
+}
+.cross_icon {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+h3{
+    font-size: 20px;
+    color: #C0C0C0;
+    margin-top: 32px;
+    margin-bottom: 26px;
+}
+.text_btn{
+    margin-bottom: 24px;
+    font-weight: 500;
+    cursor: pointer;
+}

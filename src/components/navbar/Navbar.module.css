@@ -1,0 +1,107 @@
+.cont {
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    height: 80vh;
+    background: var(--main-color);
+    border-radius: 35px;
+    color: #fff;
+    padding-top: 70px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.unactive_link {
+    width: 260px;
+    height: 50px;
+    margin-bottom: 16px;
+    color: white;
+    padding-left: 50px;
+    align-items: center;
+    display: flex;
+    z-index: 1;
+}
+
+.active_link {
+    margin-bottom: 16px;
+    height: 50px;
+    color: white;
+    background-color: var(--secondary-color);
+    padding-left: 30px;
+    align-items: center;
+    display: flex;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    margin-left: 20px;
+    position: relative;
+}
+
+.top_curve {
+    position: absolute;
+    left: -7px;
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    top: -40px;
+    z-index: 0;
+    visibility: hidden;
+}
+
+.top_curve::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--main-color);
+    border-bottom-right-radius: 50px;
+}
+
+.bottom_curve {
+    position: absolute;
+    visibility: hidden;
+    left: -7px;
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    background-clip: border-box;
+    bottom: -40px;
+    z-index: 0;
+}
+
+.bottom_curve::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-top-right-radius: 50px;
+    background: linear-gradient(270deg, #3548F5 -4.17%, #F58747 110.83%);
+}
+
+.exit {
+    height: 50px;
+    margin-bottom: 16px;
+    color: white;
+    padding-left: 50px;
+    align-items: center;
+    display: flex;
+    z-index: 1;
+    margin-top: 40px;
+}
+
+.cancel {
+    width: 280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    background-color: white;
+    margin-top: 4px;
+    font-weight: bold;
+    color: #494949;
+    cursor: pointer;
+}
