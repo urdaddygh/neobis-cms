@@ -42,9 +42,9 @@ const ModalForAddCard = ({ active,
     // console.log(imageForDelete)
     return (
       <Modal active={active} setActive={setActive} height="90%" width="360px">
-        <div onClick={closeModal}>
+        <div >
           <p className={s.up_p}>Добавить карточку</p>
-          <img src={cross_icon} alt="" className={s.cross_icon} />
+          <img src={cross_icon} alt="" className={s.cross_icon} onClick={closeModal}/>
         </div>
         <form action="" onSubmit={formik.handleSubmit}>
           <div className={s.cont}>

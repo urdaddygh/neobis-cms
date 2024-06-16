@@ -40,6 +40,9 @@ import home_icon from './home_icon.svg'
 import staff_icon from './staff_icon.svg'
 import group_icon from './group_icon.svg'
 import archive_mini_icon from './archive_mini_icon.svg'
+import three_dot_icon from './three_dot_icon.svg'
+import teacher_icon from './teacher_icon.svg'
+import menedjer_icon from './menedjer_icon.svg'
 export{
     arrow_back,
     lock,
@@ -82,5 +85,8 @@ export{
     home_icon,
     staff_icon,
     group_icon,
-    archive_mini_icon
+    archive_mini_icon,
+    three_dot_icon,
+    teacher_icon,
+    menedjer_icon
 }

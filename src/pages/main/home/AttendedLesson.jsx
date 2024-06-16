@@ -15,7 +15,7 @@ const AttendedLesson = () => {
   const [modalArchivatedActive, setModalArchivatedActive] = useState(false);
 
   return (
-    <div className={s.table_content}>
+    <>
     <div className={s.search_cont}>
       <div className={s.search}>
         <Input
@@ -86,7 +86,7 @@ const AttendedLesson = () => {
       setActive={setModalAddStudentActive}
     />
     <ModalForArchivated active={modalArchivatedActive} setActive={setModalArchivatedActive} closeModal={()=>setModalArchivatedActive(false)}/>
-  </div>
+  </>
   )
 }
 

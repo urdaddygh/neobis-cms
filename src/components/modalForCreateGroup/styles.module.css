@@ -39,7 +39,7 @@
     justify-content: space-evenly;
     margin-top: 24px;
 }
-.cont_btn button{
+.btn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,15 +49,9 @@
     font-weight: 700;
     color: white;
     border-radius: 10px;
-}
-.cont_btn span{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color:#F34545;
-    font-weight: 700;
-    width: 260px;
-    cursor: pointer;
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
 }
 .flex{
     display: flex;

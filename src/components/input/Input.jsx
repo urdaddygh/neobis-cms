@@ -24,7 +24,7 @@ const Input = ({
   return (
     <div className={s.form_row} style={{margin:margin}}  >
       <input
-        style={{ padding: padding, borderColor:borderColor, color:inputColor, minWidth: minWidth, maxWidth:maxWidth}}
+        style={{ padding: padding, borderColor:borderColor, color:inputColor, minWidth: minWidth, maxWidth:maxWidth, }}
         className={s.input}
         placeholder={placeholder}
         value={value}

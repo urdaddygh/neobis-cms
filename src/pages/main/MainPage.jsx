@@ -17,6 +17,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { Navbar } from "../../components/navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import HomeRoute from "./home/HomeRoute";
+import GroupPage from "./group/GroupPage";
+import EmployeePage from "./employee/EmployeePage";
+import ArchiveRoute from "./archive/ArchiveRoute";
 
 function MainPage() {
   const [modalActive, setModalActive] = useState(false);
@@ -53,6 +56,9 @@ function MainPage() {
         <section className={s.first_section}>
         <Routes>
             <Route path="/home/*" element={<HomeRoute />} />
+            <Route path="/group" element={<GroupPage />} />
+            <Route path="/employees" element={<EmployeePage />} />
+            <Route path="/archive/*" element={<ArchiveRoute />} />
         </Routes>
         </section>
       </div>

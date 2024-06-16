@@ -81,8 +81,8 @@ const ModalForAddProduct = ({ active, setActive, closeModal,setActiveSuccess }) 
 
   return (
     <Modal active={active} setActive={setActive} width="564px" height="65%">
-      <div className={s.cross_icon} onClick={closeModal}>
-        <img src={cross_icon} alt="" />
+      <div className={s.cross_icon} >
+        <img src={cross_icon} alt="" onClick={closeModal}/>
       </div>
       <form
         action=""

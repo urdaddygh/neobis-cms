@@ -1,13 +1,12 @@
 main {
     padding: 24px 42px;
-    height: 100vh;
-    /* height: 100%; */
     position: relative;
 }
 .container{
     display: flex;
     flex-direction: row;
     margin-top: 30px;
+    height: 80vh;
 }
 .container .navbar {
 margin-right: 30px;

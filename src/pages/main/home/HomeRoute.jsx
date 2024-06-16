@@ -19,7 +19,7 @@ const HomeRoute = () => {
 
   const [modalActive, setModalActive] = useState(false);
   return (
-    <div>
+    <>
       <div className="sublink_cont">
         <NavLink
           to="/main/home/waiting"
@@ -53,7 +53,7 @@ const HomeRoute = () => {
         </Routes>
       </div>
       <ModalForAddCard active={modalActive} setActive={setModalActive} closeModal={()=>setModalActive(false)}/>
-    </div>
+    </>
   );
 };
 

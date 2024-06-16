@@ -10,7 +10,9 @@ const InputDropdown = ({
   value,
   name,
   readOnly,
-  margin
+  margin,
+  style,
+  labelPadding
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value);
@@ -49,11 +51,13 @@ const InputDropdown = ({
         onBlur={() => setTimeout(() => setIsOpen(false), 100)}
         className={s.dropdown_input} 
         readOnly={readOnly}
+        style={style}
       />
       <label
         className={inputValue===''?s.label:s.label_active}
         htmlFor={forLabel}
-        style={{ color: valueColor }}
+        style={{ color: valueColor, padding:labelPadding }}
+        onClick={() => setIsOpen(true)}
       >
         {valueLabel}
       </label>

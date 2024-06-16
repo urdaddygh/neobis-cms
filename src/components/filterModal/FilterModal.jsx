@@ -4,21 +4,21 @@ import s from './styles.module.css';
 import { cross_icon } from '../../Images';
 import Button from '../button/Button';
 
-const FilterModal = ({modalActive, setModalActive, closeModal}) => {
-  const [selectedFilters, setSelectedFilters] = useState({
-    Python: false,
-    'UX|UI': false,
-    IOS: false,
-    JavaScript: false,
-    QA: false,
-    'Проектный менеджмент': false
-  });
+const FilterModal = ({modalActive, setModalActive, closeModal, option={
+  Python: false,
+  'UX|UI': false,
+  IOS: false,
+  JavaScript: false,
+  QA: false,
+  'Проектный менеджмент': false
+}}) => {
+  const [selectedFilters, setSelectedFilters] = useState(option);
 
   const handleFilterChange = (e) => {
     const { name, checked } = e.target;
     setSelectedFilters({
       ...selectedFilters,
-      [name]: checked
+      [name]: checked,
     });
   };
 

@@ -5,14 +5,22 @@
     align-items: center;
     text-align: center;
 }
-
+.choiceInput{
+    display: flex;
+    justify-content: space-between;
+}
 .link {
     color: #4254EC;
     font-weight: bold;
     font-size: 20px;
     margin-right: 40px;
 }
-
+.three_dot{
+    cursor: pointer;
+}
+.table_content{
+    padding: 30px 0px;
+}
 .title {
     display: flex;
     justify-content: space-between;
@@ -21,8 +29,8 @@
     border-bottom: solid 1px white;
     color: black;
     color: #F3F3FF;
-    padding: 0 10px 0 0;
     gap: 20px;
+    padding: 0 10px 0 0;
 }
 .subtitle{
     cursor: pointer;

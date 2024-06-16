@@ -5,12 +5,12 @@ import { archive_icon, cross_icon, pen_icon, trash_icon } from '../../Images'
 const ModalForAdditionalInfo = ({ active, setActive, closeModal, openChangeModal, openAddStudentModal, openArchivatedModal }) => {
   return (
     <Modal active={active} setActive={setActive} height="65%">
-    <div className={s.cross_icon} onClick={closeModal}>
-      <img src={cross_icon} alt="" />
+    <div className={s.cross_icon} >
+      <img src={cross_icon} alt="" onClick={closeModal}/>
     </div>
    <div className={s.box_cont}>
     <div className={s.box_btn} onClick={openChangeModal}>
-        <img src={pen_icon} alt="Изменит" />
+        <img src={pen_icon} alt="Изменить" />
         <p>Изменить</p>
     </div>
     <div className={s.box_btn}>
