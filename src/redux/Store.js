@@ -3,6 +3,8 @@ import { authSlices } from "./slices/authSlice";
 import { registerSlices } from "./slices/registerSlice";
 import { productSlice } from "./slices/productsApiSlice";
 import { profileSlices } from "./slices/profileSlice";
+import { applicationSlice } from "./slices/applicationSlice";
+import { actionSlice } from "./slices/actionSlice";
 
 
 export const store = configureStore({
@@ -11,5 +13,7 @@ export const store = configureStore({
     register:registerSlices,
     products:productSlice,
     profile:profileSlices,
+    applications:applicationSlice,
+    action:actionSlice
   },
 });

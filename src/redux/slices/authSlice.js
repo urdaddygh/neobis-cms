@@ -20,10 +20,10 @@ export const postAuth = createAsyncThunk("auth/postAuth", async (data) => {
     const res = await requests.authApi(data.values);
     setCookie("access", res.data.access);
     setCookie("refresh", res.data.refresh);
-    data.navigate("/main");
+    data.navigate("/main/home/waiting");
     return res.data;
   } catch (err) {
-    data.showToErrMessage("Неверный логин или пароль ");
+    data.showToErrMessage("Неверный логин или пароль");
     throw new Error(err);
   }
 });
@@ -37,7 +37,7 @@ export const forgotPassword = createAsyncThunk(
       data.onClick();
       return res.data;
     } catch (error) {
-      data.showErrMessage("Пользователь с таким номером телефона отсуствует")
+      data.showErrMessage("Пользователь не найден")
       data.setState(true)
       throw new Error(console.log(error))
     }

@@ -8,7 +8,7 @@ import {
 const access = getCookie("access");
 
 const baseConfig = {
-  baseURL: "https://neobook.online/mobi-market/",
+  baseURL: "https://neobook.online/crm_neolabs",
   headers: {
     "Content-type": "application/json",
     Authorization: `Bearer ${getCookie("access")}`,
@@ -26,7 +26,7 @@ const fetchAPIImage = axios.create({
 });
 
 const fetchNoTokenAPI = axios.create({
-  baseURL: "https://neobook.online/mobi-market/",
+  baseURL: "https://neobook.online/crm_neolabs/",
   headers: {
     "Content-type": "application/json",
   },
@@ -97,26 +97,44 @@ export const requests = {
       },
     }),
 
-  getProducts: (data) =>
-    fetchAPI.get(`products/?page=${data}&limit=32`, {
+  getApplicationByStatus: (data) =>
+    fetchAPI.get(`application/?status=${data}`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
-  getProductsById: (data) =>
-    fetchAPI.get(`products/${data}/`, {
+    getApplicationById: (data) =>
+    fetchAPI.get(`application/?id=${data}/`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
-  getProductsLiked: (data) =>
-    fetchAPI.get(`products/liked/?page=${data}&limit=32`, {
+    getApplicationBySearch: (data) =>
+    fetchAPI.get(`application/global-search/?q=${data}/`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
-  getMyProducts: (data) =>
-    fetchAPI.get(`products/my-products/?page=${data}&limit=32`, {
+  getDirections: () =>
+    fetchAPI.get(`directions/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  getSource: () =>
+    fetchAPI.get(`source/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  getGroups: () =>
+    fetchAPI.get(`groups/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  createApplicationCard: (data) =>
+    fetchAPI.post(`application/create/`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -130,12 +148,6 @@ export const requests = {
   getLikedProductsForPagination: (data) =>
     fetchAPI.get(`${data}`, {
       headers: {
-        Authorization: `Bearer ${getCookie("access")}`,
-      },
-    }),
-  likeProduct: (data) =>
-    fetchAPI.post(`products/like/${data}/`, "", {
-      headers: { 
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),

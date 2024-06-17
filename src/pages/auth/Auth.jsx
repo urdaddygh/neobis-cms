@@ -50,7 +50,7 @@ function Auth() {
   };
 
   const SignupSchema = Yup.object().shape({
-    username: Yup.string().min(2, "").max(50, ""),
+    // username: Yup.string().min(2, "").max(50, ""),
   });
  
   const formik = useFormik({
@@ -58,7 +58,7 @@ function Auth() {
     validateOnMount: false,
     validateOnBlur: false,
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validationSchema: SignupSchema,
@@ -85,14 +85,14 @@ function Auth() {
         <form onSubmit={formik.handleSubmit}>
           <ToastContainer />
           <Input
-            forLabel="username"
-            id="username"
-            valueLabel="Логин"
-            type="text"
-            name="username"
-            value={formik.values.username}
+            forLabel="email"
+            id="email"
+            valueLabel="Почта"
+            type="email"
+            name="email"
+            value={formik.values.email}
             onChange={formik.handleChange}
-            color={authErr && formik.values.username !== "" && "red"}
+            color={authErr && formik.values.email !== "" && "red"}
           />
           <div className={s.cont_pass}>
             <Input
@@ -101,7 +101,7 @@ function Auth() {
               name="password"
               valueLabel="Пароль"
               type={state ? "text" : "password"}
-              value={formik.values.email}
+              value={formik.values.password}
               onChange={formik.handleChange}
               margin="47px 0 0px 0px"
               color={authErr && formik.values.password !== "" && "red"}
@@ -127,7 +127,7 @@ function Auth() {
           </p>
           <Button
             text="Войти"
-            disabled={!(formik.values.password && formik.values.username)}
+            disabled={!(formik.values.password && formik.values.email)}
             type="submit"
             margin="46px 0 0 0"
           />

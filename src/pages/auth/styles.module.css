@@ -65,7 +65,7 @@ height: 14px;
     font-size: 18px;
     font-weight: 500;
     font-size: 14px;
-    color: #5458EA;
+    color: var(--main-color);
     margin-top: 183px;
 }
 
@@ -74,10 +74,14 @@ height: 14px;
     border-radius: 16px;
     background-color:#F34545;
 }
+.input_cont{
+    display: flex;
+    justify-content: center;
+}
 .second_section .forgot{
     font-size: 14px;
     font-weight: 500;
-    color: #5458EA;
+    color: var(--main-color);
     margin-top: 16px;
     text-align: left;
     cursor: pointer;
@@ -96,7 +100,7 @@ height: 14px;
     margin-top: 44px;
     font-weight: bold;
     color: white;
-    background-color:#5458EA;
+    background-color:var(--main-color);
 }
 .modal_phone .text{
     font-weight: 500;

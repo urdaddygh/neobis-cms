@@ -2,6 +2,13 @@
     text-align: center;
     font-weight: 700;
     font-size: 20px;
+    margin-bottom: 20px;
+}
+.cont{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .cross_icon {
     position: absolute;
@@ -43,13 +50,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #5D5FEF;
+    background-color: var(--main-color);
     width: 260px;
     height: 44px;
     font-weight: 700;
     color: white;
     border-radius: 10px;
-    margin: 50px auto 0 auto;
+    margin: 30px auto 0 auto;
 }
 .flex{
     display: flex;

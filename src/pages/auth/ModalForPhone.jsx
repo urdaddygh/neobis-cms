@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { forgotPassword } from "../../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Input from "../../components/input/Input";
 
 function PhoneInput({value,onChange,name,className, placeholder, type}) {
   return (
@@ -40,41 +41,58 @@ function ModalForPhone({ modalActive, setModalActive, onClick }) {
     validateOnMount: false,
     validateOnBlur: false,
     initialValues: {
-      phone: "",
+      email: "",
     },
     onSubmit: (values) => {
-      let data = { values, onClick,showErrMessage,setState };
+      let data = { values, onClick, showErrMessage, setState };
       dispatch(forgotPassword(data));
     },
   });
 
   return (
     <>
-      <Modal active={modalActive} setActive={setModalActive} width="565px" height="70%">
+      <Modal
+        active={modalActive}
+        setActive={setModalActive}
+        width="565px"
+        height="70%"
+      >
         <div className={s.modal_phone}>
-          <h4 className={s.number}>Введите номер телефона</h4>
+          <h4 className={s.number}>Сброс пароля</h4>
           <img src={phone_img} alt="" />
-          <h6 className={s.text}>Введите номер телефона</h6>
+          <h6 className={s.text}>Введите почту</h6>
           <p className={s.sms}>
             Мы отправим вам СМС с кодом
             <br /> подтверждения
           </p>
           <form onSubmit={formik.handleSubmit}>
-            <PhoneInput
+            {/* <PhoneInput
               value={formik.values.phone}
               onChange={formik.handleChange}
               alwaysShowMask={false}
               name="phone"
               className={s.mask}
-            ></PhoneInput>
-
-           {state&& <p style={{color:"red", marginTop:"5px", fontWeight:"700"}}>Данный номер телефона не зарегестрирован</p>} 
+            ></PhoneInput> */}
+            <div className={s.input_cont}>
+              <Input
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                type="email"
+                valueLabel="Почта"
+                name="email"
+              />
+            </div>
+            {state && (
+              <p style={{ color: "red", marginTop: "5px", fontWeight: "700" }}>
+                Данная почта не зарегестрирована
+              </p>
+            )}
 
             <div>
               <button
                 className={s.modal_btn}
                 type="submit"
-                disabled={!formik.values.phone}
+                disabled={!formik.values.email}
               >
                 Далее
               </button>

@@ -6,6 +6,7 @@ import TrialLesson from "./TrialLesson";
 import WaitingCall from "./WaitingCall";
 import Button from "../../../components/button/Button";
 import ModalForAddCard from "../../../components/modalForAddCard/ModalForAddCard";
+import { ToastContainer } from "react-toastify";
 
 const HomeRoute = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const HomeRoute = () => {
   const [modalActive, setModalActive] = useState(false);
   return (
     <>
+    <ToastContainer />
       <div className="sublink_cont">
         <NavLink
           to="/main/home/waiting"

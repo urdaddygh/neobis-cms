@@ -21,6 +21,10 @@ const InputDropdown = ({
   useEffect(() => {
     setInputValue(value);
   }, [value]);
+  useEffect(() => {
+    setFilteredOptions(options);
+  }, [options]);
+
 
   const handleInputChange = (e) => {
     const value = e.target.value;

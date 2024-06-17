@@ -89,7 +89,7 @@ input::-webkit-inner-spin-button {
 
 }
 .unactive_sublink{
-  color: #4254EC;
+  color: var(--secondary-color);
   font-weight: bold;
   margin-right: 40px;
   white-space: nowrap;
@@ -105,4 +105,25 @@ input::-webkit-inner-spin-button {
   min-height: 89%;
     padding: 30px 0px;
     margin-top: 20px;
+}
+.error{
+  text-align: center;
+  font-size: 24px;
+  color: red;
+  margin-top: 40px;
+  font-weight: 700;
+}
+.loading{
+  text-align: center;
+  font-size: 24px;
+  color: white;
+  margin-top: 40px;
+  font-weight: 700;
+}
+.noData{
+  text-align: center;
+  font-size: 24px;
+  color: black;
+  font-weight: 700;
+  margin-top: 40px;
 }
