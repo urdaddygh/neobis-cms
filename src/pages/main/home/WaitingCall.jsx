@@ -8,10 +8,13 @@ import FilterModal from "../../../components/filterModal/FilterModal";
 import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForAddStudent";
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
 import { useDispatch, useSelector } from "react-redux";
-import { getApplicationById, getApplicationBySearch, getApplicationByStatus } from "../../../redux/slices/applicationSlice";
+import { deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus } from "../../../redux/slices/applicationSlice";
 import { useFormik } from "formik";
+import { useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 const WaitingCall = () => {
   const dispatch = useDispatch();
+  const location = useLocation()
   const [modalActive, setModalActive] = useState(false);
   const [modalFilterActive, setModalFilterActive] = useState(false);
   const [modalChangeActive, setModalChangeActive] = useState(false);
@@ -27,6 +30,22 @@ const WaitingCall = () => {
     dispatch(getApplicationByStatus("1"))
   },[])
   const applications=useSelector(state=>state.applications);
+  const updateHomePage=()=>{
+    const currentParentPath = location.pathname.split("/")[3];
+    if(currentParentPath==='waiting'){
+      return dispatch(getApplicationByStatus("1"))
+    }
+    if(currentParentPath==='trial'){
+      return dispatch(getApplicationByStatus("2"))
+    }
+    if(currentParentPath==='attended'){
+      return dispatch(getApplicationByStatus("3"))
+    }
+  }
+  const deleteApplication = (id)=>{
+    let data={id, updateHomePage}
+    dispatch(deleteApplicationById(data))
+  }
 
   const formik = useFormik({
     validateOnChange: true,
@@ -45,6 +64,7 @@ const WaitingCall = () => {
   // console.log(applications)
   return (
     <>
+    <ToastContainer/>
       <div className={s.search_cont}>
         <div className={s.search}>
           <Input
@@ -57,7 +77,12 @@ const WaitingCall = () => {
             valueColor="white"
             inputColor="white"
           />
-          <img className={s.search_icon} src={search_icon} alt="wrong" onClick={formik.handleSubmit}/>
+          <img
+            className={s.search_icon}
+            src={search_icon}
+            alt="wrong"
+            onClick={formik.handleSubmit}
+          />
         </div>
         <img
           className={s.filter_icon}
@@ -84,7 +109,7 @@ const WaitingCall = () => {
                 onClick={() => onCardClick(el.id)}
                 key={index}
               >
-                <p className={s.first_p}>{index+1}</p>
+                <p className={s.first_p}>{index + 1}</p>
                 <p>{el?.student?.first_name}</p>
                 <p>{el?.student?.last_name}</p>
                 <p>{el?.student?.phone}</p>
@@ -101,7 +126,7 @@ const WaitingCall = () => {
       ) : (
         <p className="error">Непредвиденная ошибка</p>
       )}
-  
+
       <ModalForAdditionalInfo
         active={modalActive}
         setActive={setModalActive}
@@ -109,6 +134,9 @@ const WaitingCall = () => {
         openChangeModal={() => setModalChangeActive(true)}
         openAddStudentModal={() => setModalAddStudentActive(true)}
         openArchivatedModal={() => setModalArchivatedActive(true)}
+        deleteApplication={() =>
+          deleteApplication(applications.applicationByIdInfo.id)
+        }
       />
       <ModalForChangeProduct
         active={modalChangeActive}
@@ -119,7 +147,7 @@ const WaitingCall = () => {
         modalActive={modalFilterActive}
         setModalActive={setModalFilterActive}
         closeModal={() => setModalFilterActive(false)}
-              />
+      />
       <ModalForAddStudent
         active={modalAddStudentActive}
         closeModal={() => setModalAddStudentActive(false)}

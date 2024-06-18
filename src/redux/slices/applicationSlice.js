@@ -25,9 +25,38 @@ export const getApplicationById = createAsyncThunk(
     async (data) => {
       try {
         const res = await requests.getApplicationById(data);
+        // console.log(res)
+        return res.data;
+      } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
+  export const deleteApplicationById = createAsyncThunk(
+    "getApplicationReducer/deleteApplicationById",
+    async (data) => {
+      try {
+        const res = await requests.deleteApplicationById(data.id);
+        data.updateHomePage()
         console.log(res)
         return res.data;
       } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
+  export const putApplicationById = createAsyncThunk(
+    "getApplicationReducer/putApplicationById",
+    async (data) => {
+      try {
+        console.log(data.formData)
+        const res = await requests.putApplicationById(data);
+        data.showSuccessMessage("Карточка изменена")
+        data.updateHomePage()
+        // console.log(res)
+        return res.data;
+      } catch (err) {
+        data.showErrMessage("Что то не так с интернетом...")
         throw new Error(err, "errrrrrrr");
       }
     }
@@ -53,9 +82,16 @@ export const createApplicationCard = createAsyncThunk(
         data.actions.resetForm()
         data.updateHomePage()
         return res.data;
-      } catch (err) {
-        data.showErrMessage("Что то не так с интернетом...")
-        throw new Error(console.log(err.response));
+      } catch (error) {
+        if (error.response.data.error.student.email) {
+          return data.showErrorMessage("Такая почта уже зарегистрирована");
+        }
+        if (error.response.data.error.student.phone) {
+          return data.showErrorMessage(
+            "Такой номер телефона уже зарегестрирован"
+          );
+        }
+        throw new Error(console.log(error.response));
       }
     }
   );

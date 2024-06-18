@@ -155,8 +155,7 @@ input::-webkit-inner-spin-button {
 .modal_cont_btn{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  margin-top: 24px;
+  justify-content: space-between;
 }
 .modal_btn{
   display: flex;
@@ -168,5 +167,11 @@ input::-webkit-inner-spin-button {
   font-weight: 700;
   color: white;
   border-radius: 10px;
+  box-shadow: 0 0 16px rgba(44, 44, 44, 0.15);
   margin: 30px auto 0 auto;
+}
+.modal_btn_delete{
+  background-color: transparent;
+  box-shadow: 0 0 16px rgba(44, 44, 44, 0.15);
+  color: red;
 }
