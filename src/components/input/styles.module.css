@@ -37,22 +37,28 @@
     outline: 0;
  }
  /* Скрытие плейсхолдера в поле ввода даты для WebKit браузеров (например, Chrome, Safari) */
- .form_row input[type="date"]::-webkit-datetime-edit {
+.form_row input[type="date"]::-webkit-datetime-edit {
    color: transparent;
  }
  
  /* Убедитесь, что пользовательский текст отображается */
  .form_row input[type="date"]:focus::-webkit-datetime-edit,
- .form_rowinput[type="date"]:valid::-webkit-datetime-edit {
+ .form_row input[type="date"]:valid::-webkit-datetime-edit,
+ .form_row input[type="date"]:placeholder-shown::-webkit-datetime-edit {
    color: black;
  }
  
  /* Скрытие плейсхолдера в поле ввода даты для Firefox */
- .form_rowinput[type="date"]::-moz-placeholder {
+ .form_row input[type="date"]:-moz-placeholder {
    color: transparent;
  }
  
  /* Скрытие плейсхолдера в поле ввода даты для Internet Explorer и Edge */
- .form_rowinput[type="date"]::-ms-input-placeholder {
+ .form_row input[type="date"]::-ms-input-placeholder {
+   color: transparent;
+ }
+ 
+ /* Скрытие плейсхолдера в поле ввода даты для всех браузеров, которые поддерживают ::placeholder */
+ .form_row input[type="date"]::placeholder {
    color: transparent;
  }

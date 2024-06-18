@@ -42,7 +42,7 @@ const WaitingCall = () => {
     },
   });
 
-  console.log()
+  // console.log(applications)
   return (
     <>
       <div className={s.search_cont}>
@@ -78,7 +78,7 @@ const WaitingCall = () => {
       {!applications.error ? (
         !applications.loading ? (
           applications.applicationsInfo.length !== 0 ? (
-            applications.applicationsInfo.map((el, index) => (
+            applications.applicationsInfo?.results.map((el, index) => (
               <div
                 className={s.title + " " + s.subtitle}
                 onClick={() => onCardClick(el.id)}

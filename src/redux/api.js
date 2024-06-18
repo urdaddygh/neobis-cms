@@ -103,18 +103,42 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
-    getApplicationById: (data) =>
+  getApplicationById: (data) =>
     fetchAPI.get(`application/?id=${data}/`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
-    getApplicationBySearch: (data) =>
+  getApplicationBySearch: (data) =>
     fetchAPI.get(`application/global-search/?q=${data}/`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+  getEmployee: () =>
+    fetchAPI.get(`users/all_staff/?limit=10`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+    getEmployeeById: () =>
+      fetchAPI.get(`users/all_staff/?limit=10`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("access")}`,
+        },
+      }),
+  getEmployeeBySearch: (data) =>
+    fetchAPI.get(`users/all_staff/?search=${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+    getTeachers: () =>
+      fetchAPI.get(`teachers/?limit=10`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("access")}`,
+        },
+      }),
   getDirections: () =>
     fetchAPI.get(`directions/`, {
       headers: {
@@ -135,6 +159,12 @@ export const requests = {
     }),
   createApplicationCard: (data) =>
     fetchAPI.post(`application/create/`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  addTeacher: (data) =>
+    fetchAPI.post(`users/register/teacher/`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },

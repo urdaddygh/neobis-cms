@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./styles.module.css";
 import { cross_icon, filter_icon, menedjer_icon, search_icon, teacher_icon, three_dot_icon } from "../../../Images";
 import Input from "../../../components/input/Input";
@@ -14,8 +14,13 @@ import FilterRadio from "./components/FilterRadio";
 import ModalForChangeEmployee from "../../../components/modalForChangeEmployee/ModalForChangeEmployee";
 import ModalForAddTeacher from "../../../components/modalForAddTeacher/ModalForAddTeacher";
 import ModalForAddManager from "../../../components/modalForAddManager/ModalForAddManager";
+import { ToastContainer } from "react-toastify";
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { getEmployee, getEmployeeBySearch } from "../../../redux/slices/employeeSlice";
 const EmployeePage = () => {
     const [state, setState] = useState(false);
+    const dispatch = useDispatch()
     const toggle = ()=>{
         setState(!state)
     }
@@ -23,6 +28,11 @@ const EmployeePage = () => {
     const toggleFilter = ()=>{
         setFilterState(!filterState)
     }
+
+    useEffect(()=>{
+      // dispatch(getEmployee())
+    },[])
+
     const [modalActionActive, setModalActionActive] = useState(false);
     const [modalFilterActive, setModalFilterActive] = useState(false);
     const [modalArchivatedActive, setModalArchivatedActive] = useState(false);
@@ -38,8 +48,29 @@ const EmployeePage = () => {
         setState(false);
         setModalAddMenegerActive(true)
     }
+
+    const formik = useFormik({
+      validateOnChange: true,
+      validateOnMount: false,
+      validateOnBlur: false,
+      enableReinitialize: true,
+      initialValues: {
+        search: "",
+      },
+      onSubmit: (values) => {
+        console.log(values);
+        dispatch(getEmployeeBySearch(values.search))
+      },
+    });
+    const employee = useSelector(state=>state.employee)
+    console.log(employee)
+    const onCardClick=(id)=>{
+      setModalActionActive(true)
+      // dispatch(getApplicationById(id))
+    }
     return (
       <>
+        <ToastContainer />
         <div className={s.choiceInput}>
           <Button text="+Добавить сотрудника" width="250px" onClick={toggle} />
           {state && (
@@ -71,6 +102,9 @@ const EmployeePage = () => {
                 maxWidth="100%"
                 valueColor="white"
                 inputColor="white"
+                value={formik.values.search}
+                name="search"
+                onChange={formik.handleChange}
               />
               <img className={s.search_icon} src={search_icon} alt="wrong" />
             </div>
@@ -88,8 +122,8 @@ const EmployeePage = () => {
             <p>Имя</p>
             <p>Фамилия</p>
             <p>Номер</p>
-            <p>Департамент</p>
-            <p>ID</p>
+            <p>Номер патента</p>
+            <p>Почта</p>
             <img
               src={three_dot_icon}
               alt=""
@@ -97,49 +131,44 @@ const EmployeePage = () => {
               style={{ visibility: "hidden" }}
             />
           </div>
-          <div
-            className={s.title + " " + s.subtitle}
-            onClick={() => setModalActionActive(true)}
-          >
-            <p className={s.first_p}>1</p>
-            <p>el.name</p>
-            <p>el.surname</p>
-            <p>number</p>
-            <p>department</p>
-            <p>id</p>
-            <img
-              src={three_dot_icon}
-              alt=""
-              className={s.three_dot}
-              onClick={() => setModalActionActive(true)}
-            />
-          </div>
-          <div className={s.title + " " + s.subtitle}>
-            <p className={s.first_p}>1</p>
-            <p>el.name</p>
-            <p>el.surname</p>
-            <p>number</p>
-            <p>department</p>
-            <p>id</p>
-            <img
-              src={three_dot_icon}
-              alt=""
-              className={s.three_dot}
-              onClick={() => setModalActionActive(true)}
-            />
-          </div>
+          {!employee.error ? (
+            !employee.loading ? (
+              employee.employeeInfo.length !== 0 ? (
+                employee.employeeInfo?.results.map((el, index) => (
+                  <div
+                    className={s.title + " " + s.subtitle}
+                    onClick={onCardClick}
+                    key={index}
+                  >
+                    <p className={s.first_p}>{index + 1}</p>
+                    <p>{el?.first_name}</p>
+                    <p>{el?.last_name}</p>
+                    <p>{el?.phone}</p>
+                    <p>{el?.patent_number}</p>
+                    <p>{el?.email}</p>
+                    <img
+                      src={three_dot_icon}
+                      alt=""
+                      className={s.three_dot}
+                      onClick={onCardClick}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p className="noData">Нет данных :( </p>
+              )
+            ) : (
+              <p className="loading">Загрузка...</p>
+            )
+          ) : (
+            <p className="error">Непредвиденная ошибка</p>
+          )}
           <ActionModal
             active={modalActionActive}
             openChangeModal={() => setModalChangeEmployeeActive(true)}
             openArchivatedModal={() => setModalArchivatedActive(true)}
             closeModal={() => setModalActionActive(false)}
             setActive={setModalActionActive}
-          />
-          <FilterModal
-            modalActive={modalFilterActive}
-            setModalActive={setModalFilterActive}
-            closeModal={() => setModalFilterActive(false)}
-            option={{ Преподаватели: false, Менеджеры: false }}
           />
           <ModalForArchivated
             active={modalArchivatedActive}
@@ -151,8 +180,16 @@ const EmployeePage = () => {
             closeModal={() => setModalChangeEmployeeActive(false)}
             setActive={setModalChangeEmployeeActive}
           />
-          <ModalForAddTeacher active={modalAddEmployeeActive} closeModal={()=>setModalAddEmployeeActive(false)} setActive={setModalAddEmployeeActive}/>
-          <ModalForAddManager active={modalAddMenegerActive} closeModal={()=>setModalAddMenegerActive(false)} setActive={setModalAddMenegerActive}/>
+          <ModalForAddTeacher
+            active={modalAddEmployeeActive}
+            closeModal={() => setModalAddEmployeeActive(false)}
+            setActive={setModalAddEmployeeActive}
+          />
+          <ModalForAddManager
+            active={modalAddMenegerActive}
+            closeModal={() => setModalAddMenegerActive(false)}
+            setActive={setModalAddMenegerActive}
+          />
         </div>
       </>
     );

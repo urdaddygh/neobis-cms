@@ -5,6 +5,7 @@ import { productSlice } from "./slices/productsApiSlice";
 import { profileSlices } from "./slices/profileSlice";
 import { applicationSlice } from "./slices/applicationSlice";
 import { actionSlice } from "./slices/actionSlice";
+import { employeeSlices } from "./slices/employeeSlice";
 
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     products:productSlice,
     profile:profileSlices,
     applications:applicationSlice,
-    action:actionSlice
+    action:actionSlice,
+    employee:employeeSlices
   },
 });

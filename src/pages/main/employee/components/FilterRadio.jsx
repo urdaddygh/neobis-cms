@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import s from "../styles.module.css";
 import { cross_icon } from "../../../../Images";
+import { useDispatch } from "react-redux";
+import { getTeachers } from "../../../../redux/slices/employeeSlice";
 const FilterRadio = ({ toggleFilter }) => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const filters = ["Преподаватели", "Офис-менеджера"];
-
+  const dispatch = useDispatch()
   const handleFilterChange = (e) => {
     setSelectedFilter(e.target.value);
   };
   useEffect(() => {
-    console.log(selectedFilter);
+    if(selectedFilter==="Преподаватели"){
+       dispatch(getTeachers())
+    }
+    else{
+      console.log(selectedFilter)
+    }
   }, [selectedFilter]);
   return (
     <div className={s.subwindow}>

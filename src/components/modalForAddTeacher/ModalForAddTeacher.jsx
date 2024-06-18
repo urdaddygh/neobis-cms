@@ -2,123 +2,111 @@ import { useFormik } from "formik/dist";
 import React from "react";
 import { toast } from "react-toastify";
 import { Modal } from "../modal/Modal";
-import s from "./styles.module.css";
 import { cross_icon } from "../../Images";
 import Input from "../input/Input";
 import InputDropdown from "../InputDropdown/InputDropdown";
+import { useDispatch } from "react-redux";
+import { addTeacher } from "../../redux/slices/employeeSlice";
 const ModalForAddTeacher = ({ active, setActive, closeModal }) => {
+  const dispatch = useDispatch()
   const showSuccessMessage = (data) => {
     toast.success(data, {
       position: toast.POSITION.TOP_CENTER,
-      className: "popup",
+      className:"modal_opup",
     });
   };
-
+  const showErrorMessage = (data) => {
+    console.log("err")
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
     validateOnBlur: false,
     enableReinitialize: true,
     initialValues: {
-      surname: "",
-      name: "",
-      number: "",
+      last_name: "",
+      first_name: "",
+      phone: "",
       email: "",
-      department: "",
-      group: "",
-      numberOfPatent: "",
-      periodOfPatent: "",
+      patent_number: "",
+      patent_term: "",
     },
     onSubmit: (values) => {
-      console.log(values);
+      let data = {values, showErrorMessage, showSuccessMessage}
+      dispatch(addTeacher(data))
     },
   });
 
   // console.log(imageForDelete)
   return (
-    <Modal active={active} setActive={setActive} height="90%" width="360px">
+    <Modal active={active} setActive={setActive} height="90%" width="420px">
       <div>
-        <p className={s.up_p}>Создание преподавателя</p>
+        <p className="modal_up_p">Создание преподавателя</p>
         <img
           src={cross_icon}
           alt=""
-          className={s.cross_icon}
+          className="modal_cross_icon"
           onClick={closeModal}
         />
       </div>
       <form action="" onSubmit={formik.handleSubmit}>
-        <div className={s.cont}>
+        <div className="modal_cont">
           <Input
             type="text"
-            margin="20px 0"
+            margin="10px 0"
             valueLabel="Фамилия"
-            name="surname"
-            value={formik.values.surname}
+            name="last_name"
+            value={formik.values.last_name}
             onChange={formik.handleChange}
           />
           <Input
             type="text"
-            margin="20px 0"
+            margin="10px 0"
             valueLabel="Имя"
-            name="name"
+            name="first_name"
             onChange={formik.handleChange}
-            value={formik.values.name}
+            value={formik.values.first_name}
           />
           <Input
             type="text"
-            margin="20px 0"
+            margin="10px 0"
             valueLabel="Номер телефона"
-            name="number"
+            name="phone"
             onChange={formik.handleChange}
-            value={formik.values.number}
+            value={formik.values.phone}
           />
           <Input
             type="email"
-            margin="20px 0"
+            margin="10px 0"
             valueLabel="Почта"
             name="email"
             onChange={formik.handleChange}
             value={formik.values.email}
           />
-          <InputDropdown
-            valueLabel="Направление"
-            margin="20px 0"
-            name="department"
-            onChange={formik.handleChange}
-            options={["JAVA", "Python", "JS", "UX|UI design"]}
-            readOnly
-            value={formik.values.department}
-          />
-          <InputDropdown
-            margin="20px 0"
-            valueLabel="Группа"
-            name="group"
-            onChange={formik.handleChange}
-            options={["Python дневная", "Python вечерняя"]}
-            readOnly
-            value={formik.values.group}
-          />
           <Input
             type="text"
-            margin="20px 0"
+            margin="10px 0"
             valueLabel="Номер патента"
-            name="numberOfPatent"
+            name="patent_number"
             onChange={formik.handleChange}
-            value={formik.values.numberOfPatent}
+            value={formik.values.patent_number}
           />
           <Input
-            type="text"
+            type="date"
             valueLabel="Срок патента"
             onChange={formik.handleChange}
-            value={formik.values.periodOfPatent}
-            margin="20px 0"
-            name="periodOfPatent"
+            value={formik.values.patent_term}
+            margin="10px 0"
+            name="patent_term"
           />
         </div>
         <button
           width="260px"
-          onClick={(e) => {}}
-          className={s.btn}
+          className="modal_btn"
           type="submit"
         >
           Сохранить

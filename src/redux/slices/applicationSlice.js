@@ -25,6 +25,7 @@ export const getApplicationById = createAsyncThunk(
     async (data) => {
       try {
         const res = await requests.getApplicationById(data);
+        console.log(res)
         return res.data;
       } catch (err) {
         throw new Error(err, "errrrrrrr");
