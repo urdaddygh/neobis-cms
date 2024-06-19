@@ -8,8 +8,11 @@ const ModalForAdditionalInfo = ({
   closeModal,
   openChangeModal,
   openAddStudentModal,
-  openArchivatedModal,
+  onArchiveClick,
   deleteApplication,
+  signUpTrialLesson,
+  attendedTrialLesson,
+  unsuccessfulDealsClick
 }) => {
   return (
     <Modal active={active} setActive={setActive} height="65%">
@@ -25,19 +28,19 @@ const ModalForAdditionalInfo = ({
           <img src={trash_icon} alt="Удалить" />
           <p>Удалить</p>
         </div>
-        <div className={s.box_btn} onClick={openArchivatedModal}>
+        <div className={s.box_btn} onClick={onArchiveClick}>
           <img src={archive_icon} alt="В архив" />
           <p>В архив</p>
         </div>
       </div>
 
       <h3>Переместить в:</h3>
-      <p className={s.text_btn}>Записан на пробный урок</p>
-      <p className={s.text_btn}>Посетил пробный урок </p>
+      <p className={s.text_btn} onClick={signUpTrialLesson}>Записан на пробный урок</p>
+      <p className={s.text_btn} onClick={attendedTrialLesson}>Посетил пробный урок </p>
       <p className={s.text_btn} onClick={openAddStudentModal}>
         Студенты
       </p>
-      <p className={s.text_btn}>Неуспешные сделки</p>
+      <p className={s.text_btn} onClick={unsuccessfulDealsClick}>Неуспешные сделки</p>
     </Modal>
   );
 };

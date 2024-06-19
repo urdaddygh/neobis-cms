@@ -22,7 +22,6 @@ const ModalForChangeProduct = ({
 }) => {
   const dispatch = useDispatch()
   const application = useSelector(state=>state.applications)
-  console.log(application.applicationByIdInfo.id)
   const location = useLocation()
   const showSuccessMessage = (data) => {
     toast.success(data, {
@@ -149,7 +148,6 @@ const initialValues = {
       // };
       let data = {formData, showSuccessMessage, showErrorMessage, updateHomePage, id:application.applicationByIdInfo.id }
       dispatch(putApplicationById(data))
-      console.log(formData)
     },
   });
   

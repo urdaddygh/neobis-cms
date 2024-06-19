@@ -8,7 +8,7 @@ import FilterModal from "../../../components/filterModal/FilterModal";
 import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForAddStudent";
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus } from "../../../redux/slices/applicationSlice";
+import { archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
 import { useFormik } from "formik";
 import { useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -46,7 +46,18 @@ const WaitingCall = () => {
     let data={id, updateHomePage}
     dispatch(deleteApplicationById(data))
   }
-
+  const signUpTrialLesson = (id)=>{
+    let data={id, updateHomePage, formData:{status:2}}
+    dispatch(putApplicationById(data))
+  }
+  const attendedTrialLesson = (id)=>{
+    let data={id, updateHomePage, formData:{status:3}}
+    dispatch(putApplicationById(data))
+  }
+  const archiveApplication = (id)=>{
+    let data={id, updateHomePage}
+    dispatch(archiveApplicationById(data))
+  }
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
@@ -57,7 +68,8 @@ const WaitingCall = () => {
     },
     onSubmit: (values) => {
       console.log(values);
-      dispatch(getApplicationBySearch(values))
+      let data = {q:values.q, status:1}
+      dispatch(getApplicationBySearch(data))
     },
   });
 
@@ -133,10 +145,13 @@ const WaitingCall = () => {
         closeModal={() => setModalActive(false)}
         openChangeModal={() => setModalChangeActive(true)}
         openAddStudentModal={() => setModalAddStudentActive(true)}
-        openArchivatedModal={() => setModalArchivatedActive(true)}
+        onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.id)}
         deleteApplication={() =>
           deleteApplication(applications.applicationByIdInfo.id)
         }
+        signUpTrialLesson={()=>signUpTrialLesson(applications.applicationByIdInfo.id)}
+        attendedTrialLesson={attendedTrialLesson}
+        
       />
       <ModalForChangeProduct
         active={modalChangeActive}

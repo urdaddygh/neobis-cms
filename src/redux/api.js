@@ -115,6 +115,12 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+  archiveApplicationById: (data) =>
+    fetchAPI.post(`application/user/archive/${data}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
   putApplicationById: (data) =>
     fetchAPI.put(`application/${data.id}/`, data.formData, {
       headers: {
@@ -122,7 +128,7 @@ export const requests = {
       },
     }),
   getApplicationBySearch: (data) =>
-    fetchAPI.get(`application/global-search/?q=${data}/`, {
+    fetchAPI.get(`application/?search=${data.q}/?status=${data.status}`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },

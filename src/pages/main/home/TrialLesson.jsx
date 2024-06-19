@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./styles.module.css";
 import { filter_icon, search_icon } from "../../../Images";
 import Input from "../../../components/input/Input";
@@ -7,25 +7,90 @@ import ModalForChangeProduct from "../../../components/modalForChangeProduct/Mod
 import FilterModal from "../../../components/filterModal/FilterModal";
 import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForAddStudent";
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
+import { useFormik } from "formik";
 
 const TrialLesson = () => {
+  const dispatch = useDispatch();
+  const location = useLocation()
     const [modalActive, setModalActive] = useState(false);
     const [modalFilterActive, setModalFilterActive] = useState(false);
     const [modalChangeActive, setModalChangeActive] = useState(false);
     const [modalAddStudentActive, setModalAddStudentActive] = useState(false);
     const [modalArchivatedActive, setModalArchivatedActive] = useState(false);
+    const onCardClick=(id)=>{
+      setModalActive(true)
+      dispatch(getApplicationById(id))
+    }
+  
+    useEffect(()=>{
+      dispatch(getApplicationByStatus("2"))
+    },[])
+    const applications=useSelector(state=>state.applications);
+    const updateHomePage=()=>{
+      const currentParentPath = location.pathname.split("/")[3];
+      if(currentParentPath==='waiting'){
+        return dispatch(getApplicationByStatus("1"))
+      }
+      if(currentParentPath==='trial'){
+        return dispatch(getApplicationByStatus("2"))
+      }
+      if(currentParentPath==='attended'){
+        return dispatch(getApplicationByStatus("3"))
+      }
+    }
+    const deleteApplication = (id)=>{
+      let data={id, updateHomePage}
+      dispatch(deleteApplicationById(data))
+    }
+    const signUpTrialLesson = (id)=>{
+      let data={id, updateHomePage, formData:{status:2}}
+      dispatch(putApplicationById(data))
+    }
+    const attendedTrialLesson = (id)=>{
+      let data={id, updateHomePage, formData:{status:3}}
+      dispatch(putApplicationById(data))
+    }
+    const archiveApplication = (id)=>{
+      let data={id, updateHomePage}
+      dispatch(archiveApplicationById(data))
+    }
+    const formik = useFormik({
+      validateOnChange: true,
+      validateOnMount: false,
+      validateOnBlur: false,
+      enableReinitialize: true,
+      initialValues: {
+        q: "",
+      },
+      onSubmit: (values) => {
+        console.log(values);
+        let data = {q:values.q, status:1}
+        dispatch(getApplicationBySearch(data))
+      },
+    });
   return (
     <>
       <div className={s.search_cont}>
         <div className={s.search}>
           <Input
             valueLabel="Поиск"
+            value={formik.values.q}
+            onChange={formik.handleChange}
             minWidth="100%"
+            name="q"
             maxWidth="100%"
             valueColor="white"
             inputColor="white"
           />
-          <img className={s.search_icon} src={search_icon} alt="wrong" />
+          <img
+            className={s.search_icon}
+            src={search_icon}
+            alt="wrong"
+            onClick={formik.handleSubmit}
+          />
         </div>
         <img
           className={s.filter_icon}
@@ -43,32 +108,46 @@ const TrialLesson = () => {
         <p>Департамент</p>
         <p>ID</p>
       </div>
-      <div
-        className={s.title + " " + s.subtitle}
-        onClick={() => setModalActive(true)}
-      >
-        <p className={s.first_p}>1</p>
-        <p>el.пробный.name</p>
-        <p>el.пробный.surname</p>
-        <p>пробный.number</p>
-        <p>пробный.department</p>
-        <p>пробный.id</p>
-      </div>
-      <div className={s.title + " " + s.subtitle}>
-        <p className={s.first_p}>1</p>
-        <p>el.name</p>
-        <p>el.surname</p>
-        <p>number</p>
-        <p>department</p>
-        <p>id</p>
-      </div>
+      {!applications.error ? (
+        !applications.loading ? (
+          applications.applicationsInfo.length !== 0 ? (
+            applications.applicationsInfo?.results.map((el, index) => (
+              <div
+                className={s.title + " " + s.subtitle}
+                onClick={() => onCardClick(el.id)}
+                key={index}
+              >
+                <p className={s.first_p}>{index + 1}</p>
+                <p>{el?.student?.first_name}</p>
+                <p>{el?.student?.last_name}</p>
+                <p>{el?.student?.phone}</p>
+                <p>{el?.direction?.name}</p>
+                <p>{el?.direction?.id}</p>
+              </div>
+            ))
+          ) : (
+            <p className="noData">Нет данных :( </p>
+          )
+        ) : (
+          <p className="loading">Загрузка...</p>
+        )
+      ) : (
+        <p className="error">Непредвиденная ошибка</p>
+      )}
       <ModalForAdditionalInfo
         active={modalActive}
         setActive={setModalActive}
         closeModal={() => setModalActive(false)}
         openChangeModal={() => setModalChangeActive(true)}
         openAddStudentModal={() => setModalAddStudentActive(true)}
-        openArchivatedModal={() => setModalArchivatedActive(true)}
+        onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.id)}
+        deleteApplication={() =>
+          deleteApplication(applications.applicationByIdInfo.id)
+        }
+        signUpTrialLesson={() =>
+          signUpTrialLesson(applications.applicationByIdInfo.id)
+        }
+        attendedTrialLesson={attendedTrialLesson}
       />
       <ModalForChangeProduct
         active={modalChangeActive}
@@ -82,12 +161,16 @@ const TrialLesson = () => {
       />
       <ModalForAddStudent
         active={modalAddStudentActive}
-        closeModal={()=>setModalAddStudentActive(false)}
+        closeModal={() => setModalAddStudentActive(false)}
         setActive={setModalAddStudentActive}
       />
-      <ModalForArchivated active={modalArchivatedActive} setActive={setModalArchivatedActive} closeModal={()=>setModalArchivatedActive(false)}/>
+      <ModalForArchivated
+        active={modalArchivatedActive}
+        setActive={setModalArchivatedActive}
+        closeModal={() => setModalArchivatedActive(false)}
+      />
     </>
-  )
+  );
 }
 
 export default TrialLesson

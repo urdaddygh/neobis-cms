@@ -45,11 +45,24 @@ export const getApplicationById = createAsyncThunk(
       }
     }
   );
+  export const archiveApplicationById = createAsyncThunk(
+    "getApplicationReducer/archiveApplicationById",
+    async (data) => {
+      try {
+        console.log(data)
+        const res = await requests.archiveApplicationById(data.id);
+        data.updateHomePage()
+        return res.data;
+      } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
   export const putApplicationById = createAsyncThunk(
     "getApplicationReducer/putApplicationById",
     async (data) => {
       try {
-        console.log(data.formData)
+        console.log(data)
         const res = await requests.putApplicationById(data);
         data.showSuccessMessage("Карточка изменена")
         data.updateHomePage()
@@ -64,6 +77,7 @@ export const getApplicationById = createAsyncThunk(
   export const getApplicationBySearch = createAsyncThunk(
     "getApplicationReducer/getApplicationBySearch",
     async (data) => {
+      console.log(data)
       try {
         const res = await requests.getApplicationBySearch(data);
         console.log(res)
