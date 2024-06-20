@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   archive_icon,
   archive_mini_icon,
+  direction_icon,
   exit_icon,
   group_icon,
   home_icon,
@@ -74,6 +75,15 @@ export const Navbar=({ name, username, className, first_name })=> {
             <span className={s.top_curve}></span>
             <img src={group_icon} alt="" style={{marginRight:"10px"}} />
             Группы
+            <span className={s.bottom_curve}></span>
+          </NavLink>
+          <NavLink
+            to="/main/direction/"
+            className={linkActiveClassName("direction")}
+          >
+            <span className={s.top_curve}></span>
+            <img src={direction_icon} alt="" style={{marginRight:"10px"}} />
+            Департаменты
             <span className={s.bottom_curve}></span>
           </NavLink>
           <NavLink

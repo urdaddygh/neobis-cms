@@ -19,12 +19,16 @@ const Input = ({
   maxWidth,
   valueColor,
   borderColor,
-  onClick
+  onClick,
+  onFocus,
+  onBlur,
+  caretColor
 }) => {
   return (
     <div className={s.form_row} style={{margin:margin}}  >
       <input
-        style={{ padding: padding, borderColor:borderColor, color:inputColor, minWidth: minWidth, maxWidth:maxWidth, }}
+        onFocus={onFocus}
+        style={{ padding: padding, borderColor:borderColor, color:inputColor, minWidth: minWidth, maxWidth:maxWidth, caretColor:caretColor }}
         className={s.input}
         placeholder={placeholder}
         value={value}
@@ -35,7 +39,7 @@ const Input = ({
         required autoComplete="off"
         accept={accept}
         readOnly={readOnly}
-       
+        onBlur={onBlur}
       />
       <label className={s.label} htmlFor={forLabel} style={{color:valueColor}} onClick={onClick}>
         {valueLabel}

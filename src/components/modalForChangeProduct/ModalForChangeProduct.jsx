@@ -17,7 +17,6 @@ const ModalForChangeProduct = ({
   active,
   setActive,
   closeModal,
-  isChanging,
   deleteProductById,
 }) => {
   const dispatch = useDispatch()
@@ -129,23 +128,6 @@ const initialValues = {
         formData.laptop = values.laptop === "Да";
       }
 
-      // const formData = {
-      //   student: {
-      //     last_name: values.last_name,
-      //     first_name: values.first_name,
-      //     phone: values.phone,
-      //   },
-      //   direction: direactionId,
-      //   source: sourceId,
-      //   groups: groupsId,
-      //   status:
-      //     values.status === "Ждет звонка"
-      //       ? 1
-      //       : values.status === "Записан на пробный урок"
-      //       ? 2
-      //       : values.status === "Посетил пробный урок" && 3,
-      //   laptop: values.laptop === "Да" ? true : false,
-      // };
       let data = {formData, showSuccessMessage, showErrorMessage, updateHomePage, id:application.applicationByIdInfo.id }
       dispatch(putApplicationById(data))
     },

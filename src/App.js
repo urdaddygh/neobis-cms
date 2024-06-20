@@ -4,10 +4,12 @@ import Register from "./pages/register/Register";
 import Auth from "./pages/auth/Auth";
 import MainPage from "./pages/main/MainPage";
 import Profile from "./pages/profile/Profile";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div className='container'>
+      <ToastContainer/>
         <Routes>
           <Route path='/*' element={<Auth />} /> 
           <Route path='/register/*' element={<Register />} /> 

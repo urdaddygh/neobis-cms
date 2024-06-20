@@ -46,6 +46,23 @@ export const getGroups = createAsyncThunk(
     }
   );
 
+  export const createDirection = createAsyncThunk(
+    "getActionReducer/createDirection",
+    async (data) => {
+      try {
+        const res = await requests.createDirection(data.values);
+        data.showSuccessMessage("Департамент добавлен")
+        data.actions.resetForm()
+        data.updateHomePage()
+        return res.data;
+      } catch (error) {
+        if (error.response.data.error.name) {
+          return data.showErrorMessage("Такой департамент уже существует");
+        }
+        throw new Error(console.log(error.response));
+      }
+    }
+  );
 const actionApiSlice = createSlice({
   name: "getActionReducer",
   initialState,

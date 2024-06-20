@@ -1,18 +1,67 @@
 import { useFormik } from 'formik/dist';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { Modal } from '../modal/Modal';
 import s from './styles.module.css'
 import { cross_icon } from '../../Images';
 import Input from '../input/Input';
 import InputDropdown from '../InputDropdown/InputDropdown';
+import { getGroups, getSource } from '../../redux/slices/actionSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { getApplicationByStatus } from '../../redux/slices/applicationSlice';
 const ModalForAddStudent = ({ active, setActive, closeModal }) => {
+  const dispatch = useDispatch();
+  const location = useLocation()
   const showSuccessMessage = (data) => {
     toast.success(data, {
       position: toast.POSITION.TOP_CENTER,
       className: "popup",
     });
   };
+  const showErrorMessage = (data) => {
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className: "popup",
+    });
+  };
+
+
+  const action = useSelector((state) => state.action);
+  // console.log(action)
+  const [directions, setDirections] = useState([]);
+  const [source, setSource] = useState([]);
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    if (action?.directions) {
+      setDirections(action.directions.map((el) => el.name));
+    }
+  }, [action?.directions]);
+
+  useEffect(() => {
+    if (action?.source) {
+      setSource(action.source.map((el) => el.name));
+    }
+  }, [action?.source]);
+
+  useEffect(() => {
+    if (action?.groups) {
+      setGroups(action.groups.map((el) => el.name));
+    }
+  }, [action?.groups]);
+ const updateHomePage=()=>{
+  const currentParentPath = location.pathname.split("/")[3];
+  if(currentParentPath==='waiting'){
+    return dispatch(getApplicationByStatus("1"))
+  }
+  if(currentParentPath==='trial'){
+    return dispatch(getApplicationByStatus("2"))
+  }
+  if(currentParentPath==='attended'){
+    return dispatch(getApplicationByStatus("3"))
+  }
+}
 
   const formik = useFormik({
     validateOnChange: true,
@@ -20,15 +69,16 @@ const ModalForAddStudent = ({ active, setActive, closeModal }) => {
     validateOnBlur: false,
     enableReinitialize: true,
     initialValues: {
-      surname: "",
-      name: "",
-      number: "",
-      department: "",
-      group: "",
-      source: "",
       payed:"0",
+      last_name: "",
+      first_name: "",
+      phone: "",
+      email: "",
+      direction: "",
+      groups: "",
+      source: "",
       status: "",
-      isHasNoutbuk: "",
+      laptop: "",
     },
     onSubmit: (values) => {
       console.log(values);
@@ -75,7 +125,7 @@ const ModalForAddStudent = ({ active, setActive, closeModal }) => {
             onChange={formik.handleChange}
             options={["Python дневная", "Python вечерняя"]}
             readOnly
-            value={formik.values.group}
+            value={formik.values.groups}
           />
           <InputDropdown
             valueLabel="Направление"

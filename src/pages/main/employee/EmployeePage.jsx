@@ -30,11 +30,10 @@ const EmployeePage = () => {
     }
 
     useEffect(()=>{
-      // dispatch(getEmployee())
+      dispatch(getEmployee())
     },[])
 
     const [modalActionActive, setModalActionActive] = useState(false);
-    const [modalFilterActive, setModalFilterActive] = useState(false);
     const [modalArchivatedActive, setModalArchivatedActive] = useState(false);
     const [modalChangeEmployeeActive, setModalChangeEmployeeActive] = useState(false);
     const [modalAddEmployeeActive, setModalAddEmployeeActive] = useState(false);
@@ -131,10 +130,43 @@ const EmployeePage = () => {
               style={{ visibility: "hidden" }}
             />
           </div>
-          {!employee.error ? (
+          {/* {!employee.error ? (
             !employee.loading ? (
               employee.employeeInfo.length !== 0 ? (
                 employee.employeeInfo?.results.map((el, index) => (
+                  <div
+                    className={s.title + " " + s.subtitle}
+                    onClick={onCardClick}
+                    key={index}
+                  >
+                    <p className={s.first_p}>{index + 1}</p>
+                    <p>{el?.first_name}</p>
+                    <p>{el?.last_name}</p>
+                    <p>{el?.phone}</p>
+                    <p>{el?.patent_number}</p>
+                    <p>{el?.email}</p>
+                    <img
+                      src={three_dot_icon}
+                      alt=""
+                      className={s.three_dot}
+                      onClick={onCardClick}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p className="noData">Нет данных :( </p>
+              )
+            ) : (
+              <p className="loading">Загрузка...</p>
+            )
+          ) : (
+            <p className="error">Непредвиденная ошибка</p>
+          )} */}
+
+          {!employee.error ? (
+            !employee.loading ? (
+              employee.employeeInfo.length !== 0 ? (
+                employee.employeeInfo?.map((el, index) => (
                   <div
                     className={s.title + " " + s.subtitle}
                     onClick={onCardClick}

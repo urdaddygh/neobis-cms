@@ -17,7 +17,6 @@ import { ToastContainer, toast } from "react-toastify";
 function ProfilePage({ApiUserInfo}) {
   const [modalActive, setModalActive] = useState(false);
   const [secondModalActive, setSecondModalActive] = useState(false);
-  const [state, setState] = useState(false)
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,22 +24,11 @@ function ProfilePage({ApiUserInfo}) {
   }, []);
 
   const userInfo = useSelector((state) => state.profile.user);
-  const fileInputRef = useRef(null);
+  console.log(userInfo)
 
   const SignupSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(2)
-      .required("Имя пользователя не должно быть пустым")
-      .max(50)
-      .matches(/(?=.*[a-z])\w+/),
     email: Yup.string().email().required("Почта не должно быть пустым"),
-    birth_date: Yup.string()
-      // .matches(
-      //   /(((19\d{2}|20[0-9]{2}))(\/|\.|\-)(0?[1-9]|1[0-9]|2[0-9]|3[0-1])(\/|\.|\-))(0[0-9]$|1[0-2]$|[0-9]$)/
-      // )
-      .required("Дата рождения не должно быть пустым"),
-    first_name: Yup.string().required("Имя не должно быть пустым"),
-    last_name: Yup.string().required("Фамилие не должно быть пустым"),
+    full_name: Yup.string().required("Имя не должно быть пустым"),
   });
 
   const changeActive = () => {
@@ -68,13 +56,9 @@ function ProfilePage({ApiUserInfo}) {
     validationSchema: SignupSchema,
     enableReinitialize: true,
     initialValues: {
-      last_name: userInfo.last_name,
-      first_name: userInfo.first_name,
-      username: userInfo.username,
-      birth_date: userInfo.birth_date,
+      full_name: userInfo.full_name,
       email: userInfo.email,
       phone: userInfo.phone,
-      photo: userInfo.photo
     },
     onSubmit: (values) => {
       if(typeof values.photo==="string" || values.photo===null){
@@ -92,7 +76,6 @@ function ProfilePage({ApiUserInfo}) {
         formData,
         showToErrMessage,
         showSuccessMessage,
-        setState
       };
       dispatch(updateUserInfo(data));
       ApiUserInfo()
@@ -104,89 +87,44 @@ function ProfilePage({ApiUserInfo}) {
   }, [userInfo.email]);
 
   useEffect(() => {
-    if (formik.errors.birth_date)
-      showToErrMessage("Неправильный формат даты, Пример:[год-месяц-день]");
-    else if (formik.errors.email) showToErrMessage(formik.errors.email);
+     if (formik.errors.email) showToErrMessage(formik.errors.email);
     else if (formik.errors.first_name)
       showToErrMessage(formik.errors.first_name);
     else if (formik.errors.last_name) showToErrMessage(formik.errors.last_name);
-    else if (formik.errors.username) showToErrMessage(formik.errors.username);
   }, [formik.errors]);
 
   return (
     <>
       <ToastContainer />
-      <BackToPrevBtn to="/main" left="132px" />
-      {userInfo.email &&
-        userInfo.birth_date &&
-        userInfo.first_name &&
-        userInfo.last_name &&
-        userInfo.username &&
-        !state && (
-          <div className={s.ready} onClick={() => setState(true)}>
-            Изм.
-          </div>
-        )}
-
+      <BackToPrevBtn to="/main/home/waiting" left="132px" />
+    
       <h2 className={s.h2}>Профиль</h2>
-      <div className={s.profile_icon} onClick={() => fileInputRef.current.click()}>
-      {formik.values.photo ? (
-        <img
-          src={typeof formik.values.photo === 'string' ? userInfo.photo : URL.createObjectURL(formik.values.photo)}
-          alt="Selected Image"
-          className={s.new_avatar}
-        />
-      ) : (
-        <img src={Icon_for_add_img} alt="" width="31.5" height="40.5" />
-      )}
-      <input
-        accept="image/png, jpg"
-        type="file"
-        name="photo"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        onChange={(event) => {
-          formik.setFieldValue("photo", event.target.files[0]);
-        }}
-      />
-    </div>
-      <p className={s.p}>Выбрать фотографию</p>
-
+      <div
+        className={s.profile_icon}
+      >
+        <img src={profile_icon} alt="" />
+      </div>
+      <p className={s.p}></p>
       <div className={s.cont_input}>
         <input
           type="text"
-          name="first_name"
-          value={formik.values.first_name}
+          name="full_name"
+          value={formik.values.full_name}
           onChange={formik.handleChange}
           className={s.input}
           placeholder="Имя"
-          // readOnly={
-          //   !state
-          // }
+          readOnly
         />
         <input
           type="text"
-          name="last_name"
-          value={formik.values.last_name}
+          name="phone"
+          value={formik.values.phone}
           onChange={formik.handleChange}
           className={s.input}
-          placeholder="Фамилия"
-          // readOnly={
-          //   !state
-          // }
+          readOnly
+          placeholder="Номер телефона"
         />
-        <input
-          type="text"
-          name="username"
-          value={formik.values.username}
-          onChange={formik.handleChange}
-          className={s.input}
-          placeholder="Имя пользователя"
-          // readOnly={
-          //   !state
-          // }
-        />
-        <input
+        {/* <input
           type="text"
           name="birth_date"
           value={formik.values.birth_date}
@@ -196,9 +134,9 @@ function ProfilePage({ApiUserInfo}) {
           // readOnly={
           //   !state
           // }
-        />
+        /> */}
       </div>
-      <div className={s.add_number} onClick={() => setModalActive(true)}>
+      {/* <div className={s.add_number} onClick={() => setModalActive(true)}>
         <p>Добавить номер</p>
         <input
           type="text"
@@ -209,7 +147,7 @@ function ProfilePage({ApiUserInfo}) {
           placeholder="0(000) 000 000"
           readOnly
         />
-      </div>
+      </div> */}
       <input
         type="email"
         name="email"
@@ -217,17 +155,15 @@ function ProfilePage({ApiUserInfo}) {
         onChange={formik.handleChange}
         className={s.input}
         placeholder="Почта"
-        readOnly={!state}
+        readOnly
       />
       {!(
-        userInfo.email &&
-        userInfo.birth_date &&
-        userInfo.first_name &&
-        userInfo.last_name &&
-        userInfo.username
-      ) || state ? (
+        userInfo.email === formik.values.email &&
+        userInfo.phone === formik.values.phone &&
+        userInfo.full_name === formik.values.full_name
+      ) ? (
         <Button
-          text="Закончить регистрацию"
+          text="Сохранить"
           margin="44px auto 0 auto"
           type="button"
           onClick={() => formik.handleSubmit()}

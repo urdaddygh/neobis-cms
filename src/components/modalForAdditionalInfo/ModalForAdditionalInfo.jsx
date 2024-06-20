@@ -2,12 +2,13 @@ import React from 'react'
 import s from './styles.module.css'
 import { Modal } from '../modal/Modal'
 import { archive_icon, cross_icon, pen_icon, trash_icon } from '../../Images'
+import { ToastContainer } from 'react-toastify';
 const ModalForAdditionalInfo = ({
   active,
   setActive,
   closeModal,
   openChangeModal,
-  openAddStudentModal,
+  addToStudent,
   onArchiveClick,
   deleteApplication,
   signUpTrialLesson,
@@ -37,7 +38,7 @@ const ModalForAdditionalInfo = ({
       <h3>Переместить в:</h3>
       <p className={s.text_btn} onClick={signUpTrialLesson}>Записан на пробный урок</p>
       <p className={s.text_btn} onClick={attendedTrialLesson}>Посетил пробный урок </p>
-      <p className={s.text_btn} onClick={openAddStudentModal}>
+      <p className={s.text_btn} onClick={addToStudent}>
         Студенты
       </p>
       <p className={s.text_btn} onClick={unsuccessfulDealsClick}>Неуспешные сделки</p>

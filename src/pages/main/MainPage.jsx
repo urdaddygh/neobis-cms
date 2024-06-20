@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import s from "./MainPage.module.css";
 import Header from "../../components/header/Header";
-import { heart_icon, red_heart_icon } from "../../Images";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getProducts,
-  getProductsBegin,
-  getProductsById,
-  getProductsForPagination,
-  likeProduct,
-  unLikeProduct,
-} from "../../redux/slices/productsApiSlice";
-import Skeleton from "../../components/skeleton/Skeleton";
-import { Pagination } from "../../components/pagination/Pagination";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { Navbar } from "../../components/navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
@@ -20,33 +9,15 @@ import HomeRoute from "./home/HomeRoute";
 import GroupPage from "./group/GroupPage";
 import EmployeePage from "./employee/EmployeePage";
 import ArchiveRoute from "./archive/ArchiveRoute";
+import DirectionPage from "./direction/DirectionPage";
 
 function MainPage() {
-  const [modalActive, setModalActive] = useState(false);
-  const [secondModalActive, setSecondModalActive] = useState(false);
-  const dispatch = useDispatch(); 
-
-  const showErrorMessage = (data) => {
-    toast.error(data, {
-      position: toast.POSITION.TOP_CENTER,
-      className: "popup",
-    });
-  };
-  
-  const showSuccessMessage = (data) => {
-    toast.success(data, {
-      position: toast.POSITION.TOP_CENTER,
-      className: "popup",
-    });
-  };
-
   return (
     <main>
       <ToastContainer />
       <Header
         name='Aziret'
         username='urdaddy'
-        onClick={() => setSecondModalActive(true)}
         to="/profile/profilePage"
       />
       <div className={s.container}>
@@ -58,6 +29,7 @@ function MainPage() {
             <Route path="/home/*" element={<HomeRoute />} />
             <Route path="/group" element={<GroupPage />} />
             <Route path="/employees" element={<EmployeePage />} />
+            <Route path="/direction" element={<DirectionPage />} />
             <Route path="/archive/*" element={<ArchiveRoute />} />
         </Routes>
         </section>

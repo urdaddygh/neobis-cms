@@ -8,24 +8,39 @@ import FilterModal from "../../../components/filterModal/FilterModal";
 import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForAddStudent";
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
 import { useDispatch, useSelector } from "react-redux";
-import { archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
+import { addToStudentById, archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
 import { useFormik } from "formik";
 import { useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import {  toast } from "react-toastify";
 const WaitingCall = () => {
-  const dispatch = useDispatch();
-  const location = useLocation()
   const [modalActive, setModalActive] = useState(false);
   const [modalFilterActive, setModalFilterActive] = useState(false);
   const [modalChangeActive, setModalChangeActive] = useState(false);
   const [modalAddStudentActive, setModalAddStudentActive] = useState(false);
   const [modalArchivatedActive, setModalArchivatedActive] = useState(false);
+  const dispatch = useDispatch();
+  const location = useLocation()
 
   const onCardClick=(id)=>{
     setModalActive(true)
     dispatch(getApplicationById(id))
   }
-
+  const closeCard=()=>{
+    setModalActive(false)
+  }
+  const showSuccessMessage = (data) => {
+    toast.success(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
+  const showErrorMessage = (data) => {
+    console.log("err")
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
   useEffect(()=>{
     dispatch(getApplicationByStatus("1"))
   },[])
@@ -43,20 +58,24 @@ const WaitingCall = () => {
     }
   }
   const deleteApplication = (id)=>{
-    let data={id, updateHomePage}
+    let data={id, updateHomePage, closeCard}
     dispatch(deleteApplicationById(data))
   }
   const signUpTrialLesson = (id)=>{
-    let data={id, updateHomePage, formData:{status:2}}
+    let data={id, updateHomePage, formData:{status:2}, showErrorMessage, showSuccessMessage, closeCard}
     dispatch(putApplicationById(data))
   }
   const attendedTrialLesson = (id)=>{
-    let data={id, updateHomePage, formData:{status:3}}
+    let data={id, updateHomePage, formData:{status:3}, showErrorMessage, showSuccessMessage, closeCard}
     dispatch(putApplicationById(data))
   }
   const archiveApplication = (id)=>{
-    let data={id, updateHomePage}
+    let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
     dispatch(archiveApplicationById(data))
+  }
+  const addToStudentClick = (id)=>{
+    let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
+    dispatch(addToStudentById(data))
   }
   const formik = useFormik({
     validateOnChange: true,
@@ -76,7 +95,6 @@ const WaitingCall = () => {
   // console.log(applications)
   return (
     <>
-    <ToastContainer/>
       <div className={s.search_cont}>
         <div className={s.search}>
           <Input
@@ -142,16 +160,15 @@ const WaitingCall = () => {
       <ModalForAdditionalInfo
         active={modalActive}
         setActive={setModalActive}
-        closeModal={() => setModalActive(false)}
+        closeModal={closeCard}
         openChangeModal={() => setModalChangeActive(true)}
-        openAddStudentModal={() => setModalAddStudentActive(true)}
+        addToStudent={()=>addToStudentClick(applications.applicationByIdInfo.id)}
         onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.id)}
         deleteApplication={() =>
           deleteApplication(applications.applicationByIdInfo.id)
         }
         signUpTrialLesson={()=>signUpTrialLesson(applications.applicationByIdInfo.id)}
-        attendedTrialLesson={attendedTrialLesson}
-        
+        attendedTrialLesson={()=>attendedTrialLesson(applications.applicationByIdInfo.id)}
       />
       <ModalForChangeProduct
         active={modalChangeActive}

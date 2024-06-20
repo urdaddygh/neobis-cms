@@ -4,51 +4,69 @@ import { toast } from "react-toastify";
 import { Modal } from "../modal/Modal";
 import { cross_icon } from "../../Images";
 import Input from "../input/Input";
-import InputDropdown from "../InputDropdown/InputDropdown";
-import { useDispatch } from "react-redux";
-import { addTeacher, getEmployee } from "../../redux/slices/employeeSlice";
-const ModalForAddTeacher = ({ active, setActive, closeModal }) => {
-  const dispatch = useDispatch()
+import { useDispatch, useSelector } from "react-redux";
+import {getStudents, putStudentById } from "../../redux/slices/groupsSlice";
+const ModalForChangeStudent = ({ active, setActive, closeModal }) => {
+  const dispatch = useDispatch();
+  const student = useSelector((state) => state.groups);
   const showSuccessMessage = (data) => {
     toast.success(data, {
       position: toast.POSITION.TOP_CENTER,
-      className:"modal_opup",
+      className: "modal_opup",
     });
   };
   const showErrorMessage = (data) => {
-    console.log("err")
+    console.log("err");
     toast.error(data, {
       position: toast.POSITION.TOP_CENTER,
-      className:"modal_opup",
+      className: "modal_opup",
     });
   };
-  const updateHomePage=()=>{
-    dispatch(getEmployee())
-  }
+  const updateHomePage = () => {
+    dispatch(getStudents());
+  };
+  const initialValues = {
+    last_name: student.studentsInfoById?.last_name || '',
+    first_name: student.studentsInfoById?.first_name || '',
+    phone: student.studentsInfoById?.phone || '',
+    email:student.studentsInfoById?.email||''
+  };
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
     validateOnBlur: false,
     enableReinitialize: true,
-    initialValues: {
-      last_name: "",
-      first_name: "",
-      phone: "",
-      email: "",
-      patent_number: "",
-      patent_term: "",
-    },
+    initialValues,
     onSubmit: (values) => {
-      let data = {values, showErrorMessage, showSuccessMessage, updateHomePage}
-      dispatch(addTeacher(data))
+        const formData = {};
+
+      if (values.last_name !== initialValues.last_name) {
+        formData.last_name = values.last_name;
+      }
+      if (values.first_name !== initialValues.first_name) {
+        formData.first_name = values.first_name;
+      }
+      if (values.phone !== initialValues.phone) {
+        formData.phone = values.phone;
+      }
+      if (values.email !== initialValues.email) {
+        formData.email = values.email;
+      }
+      let data = {
+        id:student.studentsInfoById.id,
+        formData,
+        updateHomePage,
+        showSuccessMessage,
+        showErrorMessage,
+      };
+      dispatch(putStudentById(data));
     },
   });
 
-  // console.log(imageForDelete)
   return (
-    <Modal active={active} setActive={setActive} height="90%" width="420px">
+    <Modal active={active} setActive={setActive} height="60%" width="420px">
       <div>
-        <p className="modal_up_p">Создание преподавателя</p>
+        <p className="modal_up_p">Создание студента</p>
         <img
           src={cross_icon}
           alt=""
@@ -75,14 +93,6 @@ const ModalForAddTeacher = ({ active, setActive, closeModal }) => {
             value={formik.values.first_name}
           />
           <Input
-            type="text"
-            margin="10px 0"
-            valueLabel="Номер телефона"
-            name="phone"
-            onChange={formik.handleChange}
-            value={formik.values.phone}
-          />
-          <Input
             type="email"
             margin="10px 0"
             valueLabel="Почта"
@@ -93,18 +103,10 @@ const ModalForAddTeacher = ({ active, setActive, closeModal }) => {
           <Input
             type="text"
             margin="10px 0"
-            valueLabel="Номер патента"
-            name="patent_number"
+            valueLabel="Номер телефона"
+            name="phone"
             onChange={formik.handleChange}
-            value={formik.values.patent_number}
-          />
-          <Input
-            type="date"
-            valueLabel="Срок патента"
-            onChange={formik.handleChange}
-            value={formik.values.patent_term}
-            margin="10px 0"
-            name="patent_term"
+            value={formik.values.phone}
           />
         </div>
         <button
@@ -119,4 +121,4 @@ const ModalForAddTeacher = ({ active, setActive, closeModal }) => {
   );
 };
 
-export default ModalForAddTeacher;
+export default ModalForChangeStudent;

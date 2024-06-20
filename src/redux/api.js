@@ -91,7 +91,7 @@ export const requests = {
       },
     }),
   getInfoOfUser: () =>
-    fetchAPI.get(`users/me/`, {
+    fetchAPI.get(`users/profile/me/`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -109,8 +109,26 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+  getStudentById: (data) =>
+    fetchAPI.get(`students/${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
   deleteApplicationById: (data) =>
     fetchAPI.delete(`application/${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  deleteStudentById: (data) =>
+    fetchAPI.delete(`students/${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  addToStudentById: (data) =>
+    fetchAPI.post(`application/student/add/${data}`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -127,6 +145,12 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+  putStudentById: (data) =>
+    fetchAPI.put(`students/${data.id}/`, data.formData, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
   getApplicationBySearch: (data) =>
     fetchAPI.get(`application/?search=${data.q}/?status=${data.status}`, {
       headers: {
@@ -135,6 +159,12 @@ export const requests = {
     }),
   getEmployee: () =>
     fetchAPI.get(`users/all_staff/?limit=10`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  getStudents: () =>
+    fetchAPI.get(`students/?limit=10`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -177,6 +207,18 @@ export const requests = {
     }),
   createApplicationCard: (data) =>
     fetchAPI.post(`application/create/`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  createStudent: (data) =>
+    fetchAPI.post(`students/`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  createDirection: (data) =>
+    fetchAPI.post(`directions/`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },

@@ -5,14 +5,29 @@ import { Modal } from '../modal/Modal';
 import s from './styles.module.css'
 import { cross_icon } from '../../Images';
 import Input from '../input/Input';
-import InputDropdown from '../InputDropdown/InputDropdown';
+import { useDispatch } from 'react-redux';
+import { getEmployee } from '../../redux/slices/employeeSlice';
+import { createStudent } from '../../redux/slices/groupsSlice';
 const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
-    const showSuccessMessage = (data) => {
-        toast.success(data, {
-          position: toast.POSITION.TOP_CENTER,
-          className: "popup",
-        });
-      };
+
+  const dispatch = useDispatch()
+
+  const showSuccessMessage = (data) => {
+    toast.success(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
+  const showErrorMessage = (data) => {
+    console.log("err")
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
+  const updateHomePage=()=>{
+    dispatch(getEmployee())
+  }
     
       const formik = useFormik({
         validateOnChange: true,
@@ -20,45 +35,46 @@ const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
         validateOnBlur: false,
         enableReinitialize: true,
         initialValues: {
-          surname: "",
-          name: "",
-          number: "",
+          last_name: "",
+          first_name: "",
+          phone: "",
           email: "",
-          payed:"0",
-          isHasNoutbuk: "",
+          // payed:"0",
         },
-        onSubmit: (values) => {
-          console.log(values);
+        onSubmit: (values, actions) => {
+          let data = {values, actions, updateHomePage, showSuccessMessage, showErrorMessage }
+
+          dispatch(createStudent(data))
         },
       });
     
   return (
-    <Modal active={active} setActive={setActive} height="90%" width="360px">
+    <Modal active={active} setActive={setActive} height="80%" width="420px">
     <div >
-      <p className={s.up_p}>Создание студента</p>
-      <img src={cross_icon} alt="" className={s.cross_icon} onClick={closeModal}/>
+      <p className="modal_up_p">Создание студента</p>
+      <img src={cross_icon} alt="" className="modal_cross_icon" onClick={closeModal}/>
     </div>
     <form action="" onSubmit={formik.handleSubmit}>
-      <div className={s.cont}>
+      <div className="modal_cont">
         <Input
           type="text"
-          margin="20px 0"
+          margin="10px 0"
           valueLabel="Фамилия"
-          name="surname"
-          value={formik.values.surname}
+          name="last_name"
+          value={formik.values.last_name}
           onChange={formik.handleChange}
         />
         <Input
           type="text"
-          margin="20px 0"
+          margin="10px 0"
           valueLabel="Имя"
-          name="name"
+          name="first_name"
           onChange={formik.handleChange}
-          value={formik.values.name}
+          value={formik.values.first_name}
         />
         <Input
           type="email"
-          margin="20px 0"
+          margin="10px 0"
           valueLabel="Почта"
           name="email"
           onChange={formik.handleChange}
@@ -66,27 +82,18 @@ const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
         />
         <Input
           type="text"
-          margin="20px 0"
+          margin="10px 0"
           valueLabel="Номер телефона"
-          name="number"
+          name="phone"
           onChange={formik.handleChange}
-          value={formik.values.number}
-        />
-         <InputDropdown
-          options={["Да", "Нет"]}
-          valueLabel="Наличие ноутбука"
-          name="isHasNoutbuk"
-          margin="20px 0"
-          onChange={formik.handleChange}
-          readOnly
-          value={formik.values.isHasNoutbuk}
+          value={formik.values.phone}
         />
          <Input
           type='number'
           valueLabel="Оплачено"
           onChange={formik.handleChange}
           value={formik.values.payed}
-          margin="20px 0"
+          margin="10px 0"
           name="payed"
         />
        
@@ -94,7 +101,7 @@ const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
       <button
         width="260px"
         onClick={(e) => {}}
-        className={s.btn}
+        className="modal_btn"
         type="submit"
       >
         Сохранить

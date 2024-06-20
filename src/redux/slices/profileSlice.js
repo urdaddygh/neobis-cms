@@ -41,6 +41,7 @@ export const getInfoOfUser = createAsyncThunk(
     }
   }
 );
+
 export const clearStateProfile = createAsyncThunk("profile/clearState", () => {
   return initialState.user;
 });
@@ -75,14 +76,12 @@ const profileSlice = createSlice({
 
     [getInfoOfUser.pending]: (state) => {
       state.error = false;
-      // console.log(action)
     },
     [getInfoOfUser.fulfilled]: (state, action) => {
       state.user = action.payload;
       state.error = false;
     },
     [getInfoOfUser.rejected]: (state) => {
-      // console.log(action)
       state.error = true;
     },
   },

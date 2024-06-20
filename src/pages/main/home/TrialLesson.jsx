@@ -9,8 +9,9 @@ import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForA
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
+import { addToStudentById, archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 const TrialLesson = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,22 @@ const TrialLesson = () => {
       setModalActive(true)
       dispatch(getApplicationById(id))
     }
-  
+    const closeCard=()=>{
+      setModalActive(false)
+    }
+    const showSuccessMessage = (data) => {
+      toast.success(data, {
+        position: toast.POSITION.TOP_CENTER,
+        className:"modal_opup",
+      });
+    };
+    const showErrorMessage = (data) => {
+      console.log("err")
+      toast.error(data, {
+        position: toast.POSITION.TOP_CENTER,
+        className:"modal_opup",
+      });
+    };
     useEffect(()=>{
       dispatch(getApplicationByStatus("2"))
     },[])
@@ -42,20 +58,24 @@ const TrialLesson = () => {
       }
     }
     const deleteApplication = (id)=>{
-      let data={id, updateHomePage}
+      let data={id, updateHomePage, closeCard}
       dispatch(deleteApplicationById(data))
     }
     const signUpTrialLesson = (id)=>{
-      let data={id, updateHomePage, formData:{status:2}}
+      let data={id, updateHomePage, formData:{status:2}, showErrorMessage, showSuccessMessage, closeCard}
       dispatch(putApplicationById(data))
     }
     const attendedTrialLesson = (id)=>{
-      let data={id, updateHomePage, formData:{status:3}}
+      let data={id, updateHomePage, formData:{status:3}, showErrorMessage, showSuccessMessage, closeCard}
       dispatch(putApplicationById(data))
     }
     const archiveApplication = (id)=>{
-      let data={id, updateHomePage}
+      let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
       dispatch(archiveApplicationById(data))
+    }
+    const addToStudentClick = (id)=>{
+      let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
+      dispatch(addToStudentById(data))
     }
     const formik = useFormik({
       validateOnChange: true,
@@ -134,25 +154,24 @@ const TrialLesson = () => {
       ) : (
         <p className="error">Непредвиденная ошибка</p>
       )}
-      <ModalForAdditionalInfo
+       <ModalForAdditionalInfo
         active={modalActive}
         setActive={setModalActive}
-        closeModal={() => setModalActive(false)}
+        closeModal={closeCard}
         openChangeModal={() => setModalChangeActive(true)}
-        openAddStudentModal={() => setModalAddStudentActive(true)}
+        addToStudent={()=>addToStudentClick(applications.applicationByIdInfo.id)}
         onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.id)}
         deleteApplication={() =>
           deleteApplication(applications.applicationByIdInfo.id)
         }
-        signUpTrialLesson={() =>
-          signUpTrialLesson(applications.applicationByIdInfo.id)
-        }
-        attendedTrialLesson={attendedTrialLesson}
+        signUpTrialLesson={()=>signUpTrialLesson(applications.applicationByIdInfo.id)}
+        attendedTrialLesson={()=>attendedTrialLesson(applications.applicationByIdInfo.id)}
       />
       <ModalForChangeProduct
         active={modalChangeActive}
         setActive={setModalChangeActive}
         closeModal={() => setModalChangeActive(false)}
+        deleteProductById={()=>deleteApplication(applications.applicationByIdInfo.id)}
       />
       <FilterModal
         modalActive={modalFilterActive}

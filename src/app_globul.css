@@ -168,7 +168,7 @@ input::-webkit-inner-spin-button {
   color: white;
   border-radius: 10px;
   box-shadow: 0 0 16px rgba(44, 44, 44, 0.15);
-  margin: 30px auto 0 auto;
+  margin: 40px auto 0 auto;
 }
 .modal_btn_delete{
   background-color: transparent;

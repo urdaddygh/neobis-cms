@@ -38,7 +38,23 @@ export const getApplicationById = createAsyncThunk(
       try {
         const res = await requests.deleteApplicationById(data.id);
         data.updateHomePage()
+        data.closeCard()
         console.log(res)
+        return res.data;
+      } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
+  export const addToStudentById = createAsyncThunk(
+    "getApplicationReducer/addToStudentById",
+    async (data) => {
+      try {
+        console.log(data)
+        const res = await requests.addToStudentById(data.id);
+        data.updateHomePage()
+        data.showSuccessMessage("Студент успешно добавлен")
+        data.closeCard()
         return res.data;
       } catch (err) {
         throw new Error(err, "errrrrrrr");
@@ -52,8 +68,13 @@ export const getApplicationById = createAsyncThunk(
         console.log(data)
         const res = await requests.archiveApplicationById(data.id);
         data.updateHomePage()
+        data.closeCard()
+        data.showSuccessMessage("Карточка успешно заархивирована")
         return res.data;
       } catch (err) {
+        if(err.response.data.error){
+          data.showErrorMessage("Карточка уже была заархивирована")
+        }
         throw new Error(err, "errrrrrrr");
       }
     }
@@ -69,7 +90,7 @@ export const getApplicationById = createAsyncThunk(
         // console.log(res)
         return res.data;
       } catch (err) {
-        data.showErrMessage("Что то не так с интернетом...")
+        data.showErrorMessage("Что то не так с интернетом...")
         throw new Error(err, "errrrrrrr");
       }
     }

@@ -16,8 +16,8 @@ export const addTeacher = createAsyncThunk(
   async (data) => {
     try {
       const res = await requests.addTeacher(data.values);
-      console.log(res)
-      localStorage.setItem("email", JSON.stringify(data.values));
+      data.showSuccessMessage("Учитель успешно создан");
+      data.updateHomePage()
       // if(!res.data.username && !res.data.email) data.navigate("/register/password")
       return res.data;
     } catch (error) {

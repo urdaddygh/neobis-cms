@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateProfilePage } from "../../redux/slices/profileSlice";
 
-function Header({name, username, onClick, to}) {
+function Header({name, username, to}) {
   const dispatch = useDispatch()
   return (
     <header>

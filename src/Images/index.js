@@ -43,6 +43,7 @@ import archive_mini_icon from './archive_mini_icon.svg'
 import three_dot_icon from './three_dot_icon.svg'
 import teacher_icon from './teacher_icon.svg'
 import menedjer_icon from './menedjer_icon.svg'
+import direction_icon from './direction_icon.svg'
 export{
     arrow_back,
     lock,
@@ -88,5 +89,6 @@ export{
     archive_mini_icon,
     three_dot_icon,
     teacher_icon,
-    menedjer_icon
+    menedjer_icon,
+    direction_icon
 }
