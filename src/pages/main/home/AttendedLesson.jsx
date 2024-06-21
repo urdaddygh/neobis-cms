@@ -78,6 +78,16 @@ const AttendedLesson = () => {
     let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
     dispatch(addToStudentById(data))
   }
+  const handleInputChange = (e) => {
+    formik.handleChange(e);
+    if (e.target.value === "") {
+      dispatch(getApplicationByStatus("3"));
+    }
+  };
+  const addToUnsuccessfulDeal=(id)=>{
+    let data = {id, formData:{status:4}, showErrorMessage, showSuccessMessage}
+    dispatch(putApplicationById(data))
+  }
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
@@ -88,7 +98,7 @@ const AttendedLesson = () => {
     },
     onSubmit: (values) => {
       console.log(values);
-      let data = {q:values.q, status:1}
+      let data = {q:values.q}
       dispatch(getApplicationBySearch(data))
     },
   });
@@ -96,14 +106,17 @@ const AttendedLesson = () => {
     <>
     <div className={s.search_cont}>
       <div className={s.search}>
-        <Input
-          valueLabel="Поиск"
-          minWidth="100%"
-          maxWidth="100%"
-          valueColor="white"
-          inputColor="white"
-        />
-        <img className={s.search_icon} src={search_icon} alt="wrong" />
+      <Input
+            valueLabel="Поиск"
+            value={formik.values.q}
+            onChange={handleInputChange}
+            minWidth="100%"
+            name="q"
+            maxWidth="100%"
+            valueColor="white"
+            inputColor="white"
+          />
+        <img className={s.search_icon} src={search_icon} alt="wrong" onClick={formik.handleSubmit}/>
       </div>
       <img
         className={s.filter_icon}
@@ -159,6 +172,7 @@ const AttendedLesson = () => {
         }
         signUpTrialLesson={()=>signUpTrialLesson(applications.applicationByIdInfo.id)}
         attendedTrialLesson={()=>attendedTrialLesson(applications.applicationByIdInfo.id)}
+        unsuccessfulDealsClick={()=>addToUnsuccessfulDeal(applications.applicationByIdInfo.id)}
       />
     <ModalForChangeProduct
       active={modalChangeActive}

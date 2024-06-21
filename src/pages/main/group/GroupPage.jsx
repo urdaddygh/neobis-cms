@@ -3,19 +3,15 @@ import s from "./styles.module.css";
 import { search_icon, three_dot_icon } from "../../../Images";
 import Input from "../../../components/input/Input";
 import ModalForAdditionalInfo from "../../../components/modalForAdditionalInfo/ModalForAdditionalInfo";
-import ModalForChangeProduct from "../../../components/modalForChangeProduct/ModalForChangeProduct";
-import FilterModal from "../../../components/filterModal/FilterModal";
-import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForAddStudent";
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
 import InputDropdown from "../../../components/InputDropdown/InputDropdown";
 import { useFormik } from "formik";
 import Button from "../../../components/button/Button";
 import ActionModal from "../../../components/actionModal/ActionModal";
-import ModalForChangeGroup from "../../../components/modalForChangeGroup/ModalForChangeGroup";
 import ModalForCreateStudentInGroup from "../../../components/modalForCreateStudentInGroup/ModalForCreateStudentInGroup";
 import ModalForCreateGroup from "../../../components/modalForCreateGroup/ModalForCreateGroup";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteStudentById, getGroups, getStudentById, getStudents } from "../../../redux/slices/groupsSlice";
+import { deleteStudentById, getGroups, getStudentById, getStudents, getStudentsBySearch } from "../../../redux/slices/groupsSlice";
 import ModalForChangeStudent from "../../../components/modalForChangeStudent/ModalForChangeStudent";
 const GroupPage = () => {
   const [modalActive, setModalActive] = useState(false);
@@ -31,7 +27,7 @@ const GroupPage = () => {
     dispatch(getStudents());
   }, []);
   const groupsInfo = useSelector((state) => state.groups);
-  console.log(groupsInfo);
+  // console.log(groupsInfo);
   const [groups, setGroups] = useState([]);
   useEffect(() => {
     if (groupsInfo?.groupsInfo) {
@@ -53,16 +49,25 @@ const GroupPage = () => {
     dispatch(deleteStudentById(data));
   };
   
+  const handleInputChange = (e) => {
+    formik.handleChange(e);
+    if (e.target.value === "") {
+      dispatch(getStudents());
+    }
+  };
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
     validateOnBlur: false,
     enableReinitialize: true,
     initialValues: {
-      groups: "",
+      q: "",
+      groups:""
     },
     onSubmit: (values) => {
       console.log(values);
+      let data = {q:values.q}
+      dispatch(getStudentsBySearch(data))
     },
   });
   return (
@@ -71,7 +76,7 @@ const GroupPage = () => {
         <InputDropdown
           margin="0 20px"
           valueLabel="Выберите группу"
-          onChange={(value) => formik.setFieldValue("groups", value)}
+          onChange={(value) => {formik.setFieldValue("groups", value)}}
           options={groups}
           readOnly
           value={formik.values.groups}
@@ -102,14 +107,17 @@ const GroupPage = () => {
       <div className="default_cont">
         <div className={s.search_cont}>
           <div className={s.search}>
-            <Input
-              valueLabel="Поиск"
-              minWidth="100%"
-              maxWidth="100%"
-              valueColor="white"
-              inputColor="white"
-            />
-            <img className={s.search_icon} src={search_icon} alt="wrong" />
+          <Input
+                valueLabel="Поиск"
+                minWidth="100%"
+                maxWidth="100%"
+                valueColor="white"
+                inputColor="white"
+                value={formik.values.q}
+                name="q"
+                onChange={handleInputChange}
+              />
+            <img className={s.search_icon} src={search_icon} alt="wrong" onClick={formik.handleSubmit} />
           </div>
         </div>
 

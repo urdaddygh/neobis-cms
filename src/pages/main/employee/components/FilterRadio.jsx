@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import s from "../styles.module.css";
 import { cross_icon } from "../../../../Images";
 import { useDispatch } from "react-redux";
-import { getTeachers } from "../../../../redux/slices/employeeSlice";
+import { getMeneger, getTeachers } from "../../../../redux/slices/employeeSlice";
 const FilterRadio = ({ toggleFilter }) => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const filters = ["Преподаватели", "Офис-менеджера"];
@@ -14,8 +14,8 @@ const FilterRadio = ({ toggleFilter }) => {
     if(selectedFilter==="Преподаватели"){
        dispatch(getTeachers())
     }
-    else{
-      console.log(selectedFilter)
+    else if(selectedFilter==="Офис-менеджера"){
+      dispatch(getMeneger())
     }
   }, [selectedFilter]);
   return (

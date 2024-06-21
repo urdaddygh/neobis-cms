@@ -77,6 +77,16 @@ const TrialLesson = () => {
       let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
       dispatch(addToStudentById(data))
     }
+    const handleInputChange = (e) => {
+      formik.handleChange(e);
+      if (e.target.value === "") {
+        dispatch(getApplicationByStatus("2"));
+      }
+    };
+    const addToUnsuccessfulDeal=(id)=>{
+      let data = {id, formData:{status:4}, showErrorMessage, showSuccessMessage}
+      dispatch(putApplicationById(data))
+    }
     const formik = useFormik({
       validateOnChange: true,
       validateOnMount: false,
@@ -87,7 +97,7 @@ const TrialLesson = () => {
       },
       onSubmit: (values) => {
         console.log(values);
-        let data = {q:values.q, status:1}
+        let data = {q:values.q}
         dispatch(getApplicationBySearch(data))
       },
     });
@@ -98,7 +108,7 @@ const TrialLesson = () => {
           <Input
             valueLabel="Поиск"
             value={formik.values.q}
-            onChange={formik.handleChange}
+            onChange={handleInputChange}
             minWidth="100%"
             name="q"
             maxWidth="100%"
@@ -166,6 +176,7 @@ const TrialLesson = () => {
         }
         signUpTrialLesson={()=>signUpTrialLesson(applications.applicationByIdInfo.id)}
         attendedTrialLesson={()=>attendedTrialLesson(applications.applicationByIdInfo.id)}
+        unsuccessfulDealsClick={()=>addToUnsuccessfulDeal(applications.applicationByIdInfo.id)}
       />
       <ModalForChangeProduct
         active={modalChangeActive}

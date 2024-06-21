@@ -77,6 +77,16 @@ const WaitingCall = () => {
     let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
     dispatch(addToStudentById(data))
   }
+  const handleInputChange = (e) => {
+    formik.handleChange(e);
+    if (e.target.value === "") {
+      dispatch(getApplicationByStatus("1"));
+    }
+  };
+  const addToUnsuccessfulDeal=(id)=>{
+    let data = {id, formData:{status:4}, showErrorMessage, showSuccessMessage}
+    dispatch(putApplicationById(data))
+  }
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
@@ -87,9 +97,10 @@ const WaitingCall = () => {
     },
     onSubmit: (values) => {
       console.log(values);
-      let data = {q:values.q, status:1}
+      let data = {q:values.q}
       dispatch(getApplicationBySearch(data))
     },
+    
   });
 
   // console.log(applications)
@@ -100,7 +111,7 @@ const WaitingCall = () => {
           <Input
             valueLabel="Поиск"
             value={formik.values.q}
-            onChange={formik.handleChange}
+            onChange={handleInputChange}
             minWidth="100%"
             name="q"
             maxWidth="100%"
@@ -163,12 +174,13 @@ const WaitingCall = () => {
         closeModal={closeCard}
         openChangeModal={() => setModalChangeActive(true)}
         addToStudent={()=>addToStudentClick(applications.applicationByIdInfo.id)}
-        onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.id)}
+        onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.student.id)}
         deleteApplication={() =>
           deleteApplication(applications.applicationByIdInfo.id)
         }
         signUpTrialLesson={()=>signUpTrialLesson(applications.applicationByIdInfo.id)}
         attendedTrialLesson={()=>attendedTrialLesson(applications.applicationByIdInfo.id)}
+        unsuccessfulDealsClick={()=>addToUnsuccessfulDeal(applications.applicationByIdInfo.id)}
       />
       <ModalForChangeProduct
         active={modalChangeActive}

@@ -109,6 +109,18 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+  getTeacherById: (data) =>
+    fetchAPI.get(`teachers/${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  getMenegerById: (data) =>
+    fetchAPI.get(`office_managers/${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
   getStudentById: (data) =>
     fetchAPI.get(`students/${data}/`, {
       headers: {
@@ -151,20 +163,36 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
-  getApplicationBySearch: (data) =>
-    fetchAPI.get(`application/?search=${data.q}/?status=${data.status}`, {
+  putTeacherById: (data) =>
+    fetchAPI.put(`teachers/${data.id}/`, data.formData, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+  putMenegerById: (data) =>
+    fetchAPI.put(`office_managers/${data.id}/`, data.formData, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  getApplicationBySearch: (data) =>
+    fetchAPI.get(
+      `application/global-search/?q=${data.q}&model_type=application`,
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("access")}`,
+        },
+      }
+    ),
+
   getEmployee: () =>
-    fetchAPI.get(`users/all_staff/?limit=10`, {
+    fetchAPI.get(`users/all_staff/?limit=10&is_archive=False`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
   getStudents: () =>
-    fetchAPI.get(`students/?limit=10`, {
+    fetchAPI.get(`students/?limit=10&is_archive=False`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -176,13 +204,37 @@ export const requests = {
       },
     }),
   getEmployeeBySearch: (data) =>
-    fetchAPI.get(`users/all_staff/?search=${data}/`, {
+    fetchAPI.get(`application/global-search/?q=${data.q}/model_type=teacher`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  getStudentsBySearch: (data) =>
+    fetchAPI.get(`application/global-search/?q=${data.q}/model_type=students`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
   getTeachers: () =>
-    fetchAPI.get(`teachers/?limit=10`, {
+    fetchAPI.get(`teachers/?limit=10&is_archive=False`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  getMeneger: () =>
+    fetchAPI.get(`office_managers/?limit=10&is_archive=False`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  deleteTeachers: (data) =>
+    fetchAPI.delete(`teachers/${data}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  deleteMeneger: (data) =>
+    fetchAPI.delete(`office_managers/${data}`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -213,6 +265,12 @@ export const requests = {
     }),
   createStudent: (data) =>
     fetchAPI.post(`students/`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+  createGroup: (data) =>
+    fetchAPI.post(`groups`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },

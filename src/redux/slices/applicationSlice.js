@@ -90,7 +90,7 @@ export const getApplicationById = createAsyncThunk(
         // console.log(res)
         return res.data;
       } catch (err) {
-        data.showErrorMessage("Что то не так с интернетом...")
+        data.showErrorMessage("Что то не так...")
         throw new Error(err, "errrrrrrr");
       }
     }
@@ -108,6 +108,7 @@ export const getApplicationById = createAsyncThunk(
       }
     }
   );
+
 export const createApplicationCard = createAsyncThunk(
     "getApplicationReducer/createApplicationCard",
     async (data) => {
@@ -162,6 +163,7 @@ const applicationApiSlice = createSlice({
         state.error = true;
         state.loading = false;
       },
+
 
     [getApplicationById.pending]: (state) => {
       state.error = false;

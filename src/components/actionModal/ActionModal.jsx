@@ -2,7 +2,7 @@ import React from 'react'
 import s from './styles.module.css'
 import { Modal } from '../modal/Modal'
 import { archive_icon, cross_icon, pen_icon, trash_icon } from '../../Images'
-const ActionModal = ({ active, setActive, closeModal, onChangeClick, openArchivatedModal, onDeleteClick }) => {
+const ActionModal = ({ active, setActive, closeModal, onChangeClick, onArchiveClick, onDeleteClick }) => {
     return (
       <Modal active={active} setActive={setActive} height="275px">
         <div className={s.cross_icon} onClick={closeModal}>
@@ -14,7 +14,7 @@ const ActionModal = ({ active, setActive, closeModal, onChangeClick, openArchiva
             <img src={pen_icon} alt="Изменить" />
             <p>Изменить</p>
           </div>
-          <div className={s.box_btn} onClick={openArchivatedModal}>
+          <div className={s.box_btn} onClick={onArchiveClick}>
             <img src={archive_icon} alt="В архив" />
             <p>В архив</p>
           </div>

@@ -44,6 +44,19 @@ export const getGroups = createAsyncThunk(
       }
     }
   );
+  export const getStudentsBySearch = createAsyncThunk(
+    "getGroupsReducer/getStudentsBySearch",
+    async (data) => {
+      console.log(data)
+      try {
+        const res = await requests.getStudentsBySearch(data);
+        console.log(res)
+        return res.data;
+      } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
   export const createStudent = createAsyncThunk(
     "getGroupsReducer/createStudent",
     async (data) => {
@@ -70,6 +83,26 @@ export const getGroups = createAsyncThunk(
       }
     }
   );
+
+  export const createGroup = createAsyncThunk(
+    "getGroupsReducer/createGroup",
+    async (data) => {
+      try {
+        const res = await requests.createGroup(data.formData);
+        data.showSuccessMessage("Группа успешно создан");
+        data.actions.resetForm()
+        data.updateHomePage()
+        // if(!res.data.username && !res.data.email) data.navigate("/register/password")
+        return res.data;
+      } catch (error) {
+        console.log(error.response);
+       data.showErrorMessage("Что то пошло не так...");
+  
+        throw new Error(error);
+      }
+    }
+  );
+
   export const deleteStudentById = createAsyncThunk(
     "getGroupsReducer/deleteStudentById",
     async (data) => {
@@ -133,6 +166,20 @@ const groupsApiSlice = createSlice({
       state.loading = false;
     },
     [getStudents.rejected]: (state) => {
+      state.error = true;
+      state.loading = false;
+    },
+
+    [getStudentsBySearch.pending]: (state) => {
+      state.error = false;
+      state.loading = true;
+    },
+    [getStudentsBySearch.fulfilled]: (state, action) => {
+      state.studentsInfo = action.payload;
+      state.error = false;
+      state.loading = false;
+    },
+    [getStudentsBySearch.rejected]: (state) => {
       state.error = true;
       state.loading = false;
     },
