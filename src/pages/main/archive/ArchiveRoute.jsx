@@ -20,22 +20,22 @@ const ArchiveRoute = () => {
     const [modalActive, setModalActive] = useState(false);
     return (
       <>
-        <div className="sublink_cont">
-          <NavLink
+        <div className="sublink_cont" style={{justifyContent:"start"}}>
+          {/* <NavLink
             to="/main/archive/groups"
             className={linkActiveClassName("groups")}
           >
             Группы
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/main/archive/students" className={linkActiveClassName("students")}>
           Студенты
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/main/archive/clients"
             className={linkActiveClassName("clients")}
           >
             Клиенты
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to="/main/archive/employees"
             className={linkActiveClassName("employees")}
@@ -46,9 +46,9 @@ const ArchiveRoute = () => {
   
         <div className="default_cont">
           <Routes>
-            <Route path="/groups" element={<GroupsArchive />} />
+            {/* <Route path="/groups" element={<GroupsArchive />} /> */}
             <Route path="/students" element={<StudentsArchive />} />
-            <Route path="/clients" element={<ClientsArchive />} />
+            {/* <Route path="/clients" element={<ClientsArchive />} /> */}
             <Route path="/employees" element={<EmployeesArchive />} />
           </Routes>
         </div>

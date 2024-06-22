@@ -7,6 +7,7 @@ import { applicationSlice } from "./slices/applicationSlice";
 import { actionSlice } from "./slices/actionSlice";
 import { employeeSlices } from "./slices/employeeSlice";
 import { groupsSlice } from "./slices/groupsSlice";
+import { archiveSlice } from "./slices/archiveSlice";
 
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     applications:applicationSlice,
     action:actionSlice,
     employee:employeeSlices,
-    groups:groupsSlice
+    groups:groupsSlice,
+    archive:archiveSlice
   },
 });

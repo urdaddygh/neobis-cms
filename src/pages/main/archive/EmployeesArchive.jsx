@@ -6,28 +6,68 @@ import { useFormik } from "formik";
 import { search_icon, three_dot_icon } from "../../../Images";
 import ActionModal from "../../../components/actionModal/ActionModal";
 import ActionModalForArchivePage from "../../../components/actionModalForArchivePage/ActionModalForArchivePage";
+import { unarchiveApplicationById } from "../../../redux/slices/applicationSlice";
+import { toast } from "react-toastify";
+import { getArchiveEmployee } from "../../../redux/slices/archiveSlice";
+import { deleteMenegerById, deleteTeacherById, getMenegerById, getTeacherById } from "../../../redux/slices/employeeSlice";
 const EmployeesArchive = () => {
   const [modalActionActive, setModalActionActive] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getArchiveEmployee())
+  }, []);
   // const groupsInfo = useSelector((state) => state.groups);
 
-  const onCardClick = (id) => {
-    // dispatch(getStudentById(id))
-    setModalActionActive(true);
+  const archive = useSelector((state) => state.archive);
+  const employee = useSelector((state) => state.employee);
+  console.log(employee)
+   const showSuccessMessage = (data) => {
+    toast.success(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
   };
+
+  const showErrorMessage = (data) => {
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
+
+  const onCardClick=(id, role)=>{
+    console.log(id, role)
+    if(role==='office_manager'){
+      dispatch(getMenegerById(id))
+    }else if(role==='teacher'){
+      dispatch(getTeacherById(id))
+    }
+    setModalActionActive(true)
+  }
+
   const closeCard = () => {
     setModalActionActive(false);
   };
+
   const updateHomePage = () => {
-    // dispatch(getStudents())
-  };
-  const deleteStudent = (id) => {
-    let data = { id, updateHomePage, closeCard };
-    // dispatch(deleteStudentById(data));
+    dispatch(getArchiveEmployee())
   };
 
+  const deleteEmployee=(id)=>{
+    let data={id, updateHomePage, closeCard}
+    if(employee.employeeInfoById.role==='office_manager'){
+      dispatch(deleteMenegerById(data))
+    }else if(employee.employeeInfoById.role==='teacher'){
+      dispatch(deleteTeacherById(data))
+    }
+  }
+
+  const unarchivatedApplication=(id)=>{
+    let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
+    console.log(data)
+    dispatch(unarchiveApplicationById(data))
+  }
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
@@ -63,28 +103,21 @@ const EmployeesArchive = () => {
         <p>Имя</p>
             <p>Фамилия</p>
             <p>Номер</p>
-            <p>Номер патента</p>
             <p>Почта</p>
+            <img
+                    src={three_dot_icon}
+                    alt=""
+                    className={s.three_dot}
+                    style={{visibility:"hidden"}}
+                  />
       </div>
-      <div
-        className={s.title + " " + s.subtitle}
-        onClick={() => onCardClick()}
-        // key={index}
-      >
-        <p className={s.first_p}>{'index + 1'}</p>
-        <p>{'el?.student?.first_name'}</p>
-        <p>{'el?.student?.last_name'}</p>
-        <p>{'el?.student?.phone'}</p>
-        <p>{'el?.student?.email'}</p>
-        <p>{'el?.student?.email'}</p>
-      </div>
-      {/* {!groupsInfo.error ? (
-          !groupsInfo.loading ? (
-            groupsInfo.studentsInfo?.results?.length !== 0 ? (
-              groupsInfo.studentsInfo?.results?.map((el, index) => (
+      {!archive.error ? (
+          !archive.loading ? (
+            archive.employeeInfo?.results?.length !== 0 ? (
+              archive.employeeInfo?.results?.map((el, index) => (
                 <div
                   className={s.title + " " + s.subtitle}
-                  onClick={() => onCardClick(el.id)}
+                  onClick={() => onCardClick(el.id, el.role)}
                   key={index}
                 >
                   <p className={s.first_p}>{index + 1}</p>
@@ -96,7 +129,7 @@ const EmployeesArchive = () => {
                     src={three_dot_icon}
                     alt=""
                     className={s.three_dot}
-                    onClick={() => onCardClick(el.id)}
+                    onClick={() => onCardClick(el.id, el.role)}
                   />
                 </div>
               ))
@@ -108,15 +141,15 @@ const EmployeesArchive = () => {
           )
         ) : (
           <p className="error">Непредвиденная ошибка</p>
-        )} */}
+        )}
 
       <ActionModalForArchivePage
         active={modalActionActive}
         // onChangeClick={() => setModalChangeGroupActive(true)}
         closeModal={() => setModalActionActive(false)}
-        // onUnarchivatedClick={}
+        onUnarchivatedClick={()=>unarchivatedApplication(employee.employeeInfoById.id)}
         setActive={setModalActionActive}
-        // onDeleteClick={() => deleteStudent(groupsInfo.studentsInfoById.id)}
+        onDeleteClick={() => deleteEmployee(employee.employeeInfoById.id)}
       />
     </>
   );

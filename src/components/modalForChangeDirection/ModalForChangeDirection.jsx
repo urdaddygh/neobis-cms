@@ -1,17 +1,16 @@
 import { useFormik } from "formik/dist";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Modal } from "../modal/Modal";
 import { cross_icon } from "../../Images";
 import Input from "../input/Input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {getStudents, putStudentById } from "../../redux/slices/groupsSlice";
 import { Sketch } from "@uiw/react-color";
 import s from './styles.module.css'
-import { createDirection, getDiractions, getDirectionById } from "../../redux/slices/actionSlice";
-const ModalForDirectionAdd = ({ active, setActive, closeModal }) => {
+import { createDirection, getDiractions, getGroups, putDirectionById } from "../../redux/slices/actionSlice";
+const ModalForChangeDirection = ({ active, setActive, closeModal }) => {
     const dispatch = useDispatch();
-    const [hex, setHex] = useState("");
     const [isFocused, setIsFocused] = useState(false); 
     const showSuccessMessage = (data) => {
       toast.success(data, {
@@ -35,25 +34,29 @@ const ModalForDirectionAdd = ({ active, setActive, closeModal }) => {
     const handleBlur = () => { 
         setIsFocused(false); 
     }; 
-
+    const directions = useSelector(state=>state.action.directionById)
+    const [hex, setHex] = useState(directions?.color);
+    useEffect(()=>{
+        setHex(directions.color)
+    },[directions])
     const formik = useFormik({
       validateOnChange: true,
       validateOnMount: false,
       validateOnBlur: false,
       enableReinitialize: true,
       initialValues: {
-        name: "",
+        name: directions?.name,
         color: hex,
       },
-      onSubmit: (values, actions) => {
+      onSubmit: (values) => {
         let data = {
           values,
+          id:directions.id,
           updateHomePage,
           showSuccessMessage,
           showErrorMessage,
-          actions
         };
-        dispatch(createDirection(data));
+        dispatch(putDirectionById(data));
         console.log(data)
       },
     });
@@ -62,7 +65,7 @@ const ModalForDirectionAdd = ({ active, setActive, closeModal }) => {
     <Modal active={active} setActive={setActive} height="50%" width="420px">
    
         <div >
-          <p className="modal_up_p">Создание группу</p>
+          <p className="modal_up_p">Изменение группы</p>
           <img
             src={cross_icon}
             alt=""
@@ -125,4 +128,4 @@ const ModalForDirectionAdd = ({ active, setActive, closeModal }) => {
   );
 }
 
-export default ModalForDirectionAdd
+export default ModalForChangeDirection

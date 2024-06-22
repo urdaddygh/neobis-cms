@@ -4,30 +4,58 @@ import Input from "../../../components/input/Input";
 import s from './styles.module.css'
 import { useFormik } from "formik";
 import { search_icon, three_dot_icon } from "../../../Images";
-import ActionModal from "../../../components/actionModal/ActionModal";
 import ActionModalForArchivePage from "../../../components/actionModalForArchivePage/ActionModalForArchivePage";
+import { getArchiveStudents } from "../../../redux/slices/archiveSlice";
+import { deleteStudentById, getStudentById } from "../../../redux/slices/groupsSlice";
+import { unarchiveApplicationById } from "../../../redux/slices/applicationSlice";
+import { toast } from "react-toastify";
 const StudentsArchive = () => {
   const [modalActionActive, setModalActionActive] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
-  // const groupsInfo = useSelector((state) => state.groups);
+  useEffect(() => {
+    dispatch(getArchiveStudents())
+  }, []);
+  const archive = useSelector((state) => state.archive);
+  const studentById = useSelector((state) => state.groups.studentsInfoById);
+  console.log(studentById)
+   const showSuccessMessage = (data) => {
+    toast.success(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
+
+  const showErrorMessage = (data) => {
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
 
   const onCardClick = (id) => {
-    // dispatch(getStudentById(id))
+    dispatch(getStudentById(id))
     setModalActionActive(true);
   };
+
   const closeCard = () => {
     setModalActionActive(false);
   };
+
   const updateHomePage = () => {
-    // dispatch(getStudents())
-  };
-  const deleteStudent = (id) => {
-    let data = { id, updateHomePage, closeCard };
-    // dispatch(deleteStudentById(data));
+    dispatch(getArchiveStudents())
   };
 
+  const deleteStudent = (id) => {
+    let data = { id, updateHomePage, closeCard };
+    dispatch(deleteStudentById(data));
+  };
+
+  const unarchivatedApplication=(id)=>{
+    let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
+    console.log(data)
+    dispatch(unarchiveApplicationById(data))
+  }
   const formik = useFormik({
     validateOnChange: true,
     validateOnMount: false,
@@ -54,67 +82,61 @@ const StudentsArchive = () => {
             value={formik.values.q}
             onChange={formik.handleChange}
           />
-          <img className={s.search_icon} src={search_icon} alt="wrong" />
+          <img className={s.search_icon} src={search_icon} alt="wrong" onClick={formik.handleSubmit}/>
         </div>
       </div>
 
       <div className={s.title} style={{ fontWeight: "500" }}>
         <p className={s.first_p}>№</p>
         <p>Имя</p>
-          <p>Фамилия</p>
-          <p>Номер</p>
-          <p>Почта</p>
+        <p>Фамилия</p>
+        <p>Номер</p>
+        <p>Почта</p>
+        <img
+          src={three_dot_icon}
+          alt=""
+          className={s.three_dot}
+          style={{ visibility: "hidden" }}
+        />
       </div>
-      <div
-        className={s.title + " " + s.subtitle}
-        onClick={() => onCardClick()}
-        // key={index}
-      >
-        <p className={s.first_p}>{'index + 1'}</p>
-        <p>{'el?.student?.first_name'}</p>
-        <p>{'el?.student?.last_name'}</p>
-        <p>{'el?.student?.phone'}</p>
-        <p>{'el?.student?.email'}</p>
-      </div>
-      {/* {!groupsInfo.error ? (
-          !groupsInfo.loading ? (
-            groupsInfo.studentsInfo?.results?.length !== 0 ? (
-              groupsInfo.studentsInfo?.results?.map((el, index) => (
-                <div
-                  className={s.title + " " + s.subtitle}
+      {!archive.error ? (
+        !archive.loading ? (
+          archive.studentsInfo?.results?.length !== 0 ? (
+            archive.studentsInfo?.results?.map((el, index) => (
+              <div
+                className={s.title + " " + s.subtitle}
+                onClick={() => onCardClick(el.id)}
+                key={index}
+              >
+                <p className={s.first_p}>{index + 1}</p>
+                <p>{el?.first_name}</p>
+                <p>{el?.last_name}</p>
+                <p>{el?.phone}</p>
+                <p>{el?.email}</p>
+                <img
+                  src={three_dot_icon}
+                  alt=""
+                  className={s.three_dot}
                   onClick={() => onCardClick(el.id)}
-                  key={index}
-                >
-                  <p className={s.first_p}>{index + 1}</p>
-                  <p>{el?.first_name}</p>
-                  <p>{el?.last_name}</p>
-                  <p>{el?.phone}</p>
-                  <p>{el?.email}</p>
-                  <img
-                    src={three_dot_icon}
-                    alt=""
-                    className={s.three_dot}
-                    onClick={() => onCardClick(el.id)}
-                  />
-                </div>
-              ))
-            ) : (
-              <p className="noData">Нет данных :( </p>
-            )
+                />
+              </div>
+            ))
           ) : (
-            <p className="loading">Загрузка...</p>
+            <p className="noData">Нет данных :( </p>
           )
         ) : (
-          <p className="error">Непредвиденная ошибка</p>
-        )} */}
+          <p className="loading">Загрузка...</p>
+        )
+      ) : (
+        <p className="error">Непредвиденная ошибка</p>
+      )}
 
       <ActionModalForArchivePage
         active={modalActionActive}
-        // onChangeClick={() => setModalChangeGroupActive(true)}
         closeModal={() => setModalActionActive(false)}
-        // onUnarchivatedClick={}
+        onUnarchivatedClick={()=>unarchivatedApplication(studentById.id)}
         setActive={setModalActionActive}
-        // onDeleteClick={() => deleteStudent(groupsInfo.studentsInfoById.id)}
+        onDeleteClick={() => deleteStudent(studentById.id)}
       />
     </>
   );

@@ -36,14 +36,14 @@ const EmployeePage = () => {
     const showSuccessMessage = (data) => {
       toast.success(data, {
         position: toast.POSITION.TOP_CENTER,
-        className:"modal_opup",
+        className:"modal_popup",
       });
     };
     const showErrorMessage = (data) => {
       console.log("err")
       toast.error(data, {
         position: toast.POSITION.TOP_CENTER,
-        className:"modal_opup",
+        className:"modal_popup",
       });
     };
     const [modalActionActive, setModalActionActive] = useState(false);

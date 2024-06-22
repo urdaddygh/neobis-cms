@@ -13,6 +13,8 @@ import ModalForCreateGroup from "../../../components/modalForCreateGroup/ModalFo
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStudentById, getGroups, getStudentById, getStudents, getStudentsBySearch } from "../../../redux/slices/groupsSlice";
 import ModalForChangeStudent from "../../../components/modalForChangeStudent/ModalForChangeStudent";
+import { archiveApplicationById } from "../../../redux/slices/applicationSlice";
+import { toast } from "react-toastify";
 const GroupPage = () => {
   const [modalActive, setModalActive] = useState(false);
   const [modalActionActive, setModalActionActive] = useState(false);
@@ -26,6 +28,19 @@ const GroupPage = () => {
     dispatch(getGroups());
     dispatch(getStudents());
   }, []);
+  const showSuccessMessage = (data) => {
+    toast.success(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
+  const showErrorMessage = (data) => {
+    console.log("err")
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
   const groupsInfo = useSelector((state) => state.groups);
   // console.log(groupsInfo);
   const [groups, setGroups] = useState([]);
@@ -48,7 +63,10 @@ const GroupPage = () => {
     let data = { id, updateHomePage, closeCard };
     dispatch(deleteStudentById(data));
   };
-  
+  const archiveApplication = (id)=>{
+    let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
+    dispatch(archiveApplicationById(data))
+  }
   const handleInputChange = (e) => {
     formik.handleChange(e);
     if (e.target.value === "") {
@@ -174,6 +192,7 @@ const GroupPage = () => {
           closeModal={() => setModalActionActive(false)}
           setActive={setModalActionActive}
           onDeleteClick={() => deleteStudent(groupsInfo.studentsInfoById.id)}
+          onArchiveClick={()=>archiveApplication(groupsInfo.studentsInfoById.id)}
         />
         <ModalForAdditionalInfo
           active={modalActive}

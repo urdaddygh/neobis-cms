@@ -115,6 +115,18 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+    getDirectionById: (data) =>
+    fetchAPI.get(`directions/${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+    deleteDirectionById: (data) =>
+    fetchAPI.delete(`directions/${data}/`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
   getMenegerById: (data) =>
     fetchAPI.get(`office_managers/${data}/`, {
       headers: {
@@ -153,6 +165,12 @@ export const requests = {
     }),
   putApplicationById: (data) =>
     fetchAPI.put(`application/${data.id}/`, data.formData, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+    putDirectionById: (data) =>
+    fetchAPI.put(`directions/${data.id}/`, data.values, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -197,6 +215,24 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+    getArchiveStudents: () =>
+    fetchAPI.get(`students/?limit=10&is_archive=True`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+    getArchiveEmployee: () =>
+    fetchAPI.get(`users/all_staff/?limit=10&is_archive=True`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
+    unarchiveApplicationById: (data) =>
+    fetchAPI.post(`application/user/unarchive/${data}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
   getEmployeeById: (data) =>
     fetchAPI.get(`users/all_staff/${data}/?limit=10`, {
       headers: {
@@ -210,7 +246,7 @@ export const requests = {
       },
     }),
   getStudentsBySearch: (data) =>
-    fetchAPI.get(`application/global-search/?q=${data.q}/model_type=students`, {
+    fetchAPI.get(`application/global-search/?q=${data.q}/model_type=student`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -257,6 +293,12 @@ export const requests = {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+    getArchiveGroups: () =>
+    fetchAPI.get(`groups/?is_archive=True&limit=10`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access")}`,
+      },
+    }),
   createApplicationCard: (data) =>
     fetchAPI.post(`application/create/`, data, {
       headers: {
@@ -270,7 +312,7 @@ export const requests = {
       },
     }),
   createGroup: (data) =>
-    fetchAPI.post(`groups`, data, {
+    fetchAPI.post(`groups/`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },

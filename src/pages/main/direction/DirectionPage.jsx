@@ -1,62 +1,58 @@
 import React, { useEffect, useState } from "react";
 import s from "./styles.module.css";
-import { search_icon, three_dot_icon } from "../../../Images";
-import Input from "../../../components/input/Input";
-import ModalForAdditionalInfo from "../../../components/modalForAdditionalInfo/ModalForAdditionalInfo";
-import ModalForChangeProduct from "../../../components/modalForChangeProduct/ModalForChangeProduct";
-import FilterModal from "../../../components/filterModal/FilterModal";
-import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForAddStudent";
-import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
-import InputDropdown from "../../../components/InputDropdown/InputDropdown";
-import { useFormik } from "formik";
+import {three_dot_icon } from "../../../Images";
 import Button from "../../../components/button/Button";
-import ActionModal from "../../../components/actionModal/ActionModal";
-import ModalForChangeGroup from "../../../components/modalForChangeGroup/ModalForChangeGroup";
-import ModalForCreateStudentInGroup from "../../../components/modalForCreateStudentInGroup/ModalForCreateStudentInGroup";
-import ModalForCreateGroup from "../../../components/modalForCreateGroup/ModalForCreateGroup";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteStudentById, getGroups, getStudentById, getStudents } from "../../../redux/slices/groupsSlice";
-import ModalForChangeStudent from "../../../components/modalForChangeStudent/ModalForChangeStudent";
 import ModalForDirectionAdd from "../../../components/modalForDirectionAdd/ModalForDirectionAdd";
-import { getDiractions } from "../../../redux/slices/actionSlice";
+import { deleteDirectionById, getDiractions, getDirectionById } from "../../../redux/slices/actionSlice";
+import ModalForChangeDirection from "../../../components/modalForChangeDirection/ModalForChangeDirection";
+import { archiveApplicationById } from "../../../redux/slices/applicationSlice";
+import { toast } from "react-toastify";
+import ActionModalForDirection from "../../../components/actionModalForDirection/ActionModalForDirection";
 const DirectionPage = () => {
   const [modalActionActive, setModalActionActive] = useState(false);
   const [modalAddDirectionActive, setModalAddDirectionActive] = useState(false);
+  const [modalChangeDirectionActive, setModalChangeDirectionActive] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getDiractions());
   }, []);
-  const action = useSelector((state) => state.action);
-  console.log(action);
 
   const updateHomePage = () => {
-    dispatch(getStudents())
+    dispatch(getDiractions())
   };
   const onCardClick = (id)=>{
-    dispatch(getStudentById(id))
+    dispatch(getDirectionById(id))
     setModalActionActive(true)
   }
+  const showSuccessMessage = (data) => {
+    toast.success(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
+  const showErrorMessage = (data) => {
+    console.log("err")
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+      className:"modal_opup",
+    });
+  };
   const closeCard = () => {
     setModalActionActive(false);
   };
-  const deleteStudent = (id) => {
+  const deleteDirection = (id) => {
     let data = { id, updateHomePage, closeCard };
-    dispatch(deleteStudentById(data));
+    console.log(data)
+    dispatch(deleteDirectionById(data));
   };
-  
-  const formik = useFormik({
-    validateOnChange: true,
-    validateOnMount: false,
-    validateOnBlur: false,
-    enableReinitialize: true,
-    initialValues: {
-      search: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const action = useSelector((state) => state.action);
+  // console.log(action);
+  const archiveApplication = (id)=>{
+    let data={id, updateHomePage, showErrorMessage, showSuccessMessage, closeCard}
+    dispatch(archiveApplicationById(data))
+  }
   return (
     <>
       <div className={s.choiceInput}>
@@ -67,7 +63,7 @@ const DirectionPage = () => {
         />
       </div>
       <div className="default_cont">
-        <div className={s.search_cont}>
+        {/* <div className={s.search_cont}>
           <div className={s.search}>
             <Input
               valueLabel="Поиск"
@@ -81,7 +77,7 @@ const DirectionPage = () => {
             />
             <img className={s.search_icon} src={search_icon} alt="wrong" />
           </div>
-        </div>
+        </div> */}
 
         <div className={s.title} style={{ fontWeight: "500" }}>
           <p className={s.first_p}>№</p>
@@ -93,6 +89,7 @@ const DirectionPage = () => {
             alt=""
             className={s.three_dot}
             onClick={() => setModalActionActive(true)}
+            style={{visibility:"hidden"}}
           />
         </div>
 
@@ -128,17 +125,22 @@ const DirectionPage = () => {
     ) : (
       <p className="error">Непредвиденная ошибка</p>
     )}
-        <ActionModal
+        <ActionModalForDirection
           active={modalActionActive}
-          // openChangeModal={() => setModalChangeEmployeeActive(true)}
-          // openArchivatedModal={() => setModalArchivatedActive(true)}
           closeModal={() => setModalActionActive(false)}
           setActive={setModalActionActive}
+          onChangeClick={() => setModalChangeDirectionActive(true)}
+          onDeleteClick={()=>deleteDirection(action.directionById.id)}
         />
         <ModalForDirectionAdd
           active={modalAddDirectionActive}
           closeModal={() => setModalAddDirectionActive(false)}
           setActive={setModalAddDirectionActive}
+        />
+        <ModalForChangeDirection
+          active={modalChangeDirectionActive}
+          closeModal={() => setModalChangeDirectionActive(false)}
+          setActive={setModalChangeDirectionActive}
         />
       </div>
     </>

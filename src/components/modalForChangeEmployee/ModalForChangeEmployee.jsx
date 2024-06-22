@@ -25,7 +25,7 @@ const ModalForChangeEmployee = ({ active, setActive, closeModal }) => {
     dispatch(getEmployee());
   };
       const employee = useSelector(state=>state.employee.employeeInfoById)
-      console.log(employee)
+      // console.log(employee)
 
       const initialValues= {
         last_name: employee.last_name||'',

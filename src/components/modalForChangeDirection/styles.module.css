@@ -1,0 +1,17 @@
+.cont{
+    position: relative;
+}
+.cross_icon{
+    top: 5px;
+    right: -16px;
+    position:absolute;
+    z-index: 99;
+    cursor: pointer;
+}
+.colorPick{
+    position: absolute;
+    top: 18px;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+}

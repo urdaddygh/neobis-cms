@@ -174,7 +174,6 @@ const WaitingCall = () => {
         closeModal={closeCard}
         openChangeModal={() => setModalChangeActive(true)}
         addToStudent={()=>addToStudentClick(applications.applicationByIdInfo.id)}
-        onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.student.id)}
         deleteApplication={() =>
           deleteApplication(applications.applicationByIdInfo.id)
         }

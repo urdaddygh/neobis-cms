@@ -7,6 +7,7 @@ const initialState = {
   directions: [],
   source: [],
   groups: [],
+  directionById:{}
 };
 
 export const getDiractions = createAsyncThunk(
@@ -63,6 +64,48 @@ export const getGroups = createAsyncThunk(
       }
     }
   );
+  export const putDirectionById = createAsyncThunk(
+    "getActionReducer/putDirectionById",
+    async (data) => {
+      try {
+        console.log(data)
+        const res = await requests.putDirectionById(data);
+        data.showSuccessMessage("Данные изменены")
+        data.updateHomePage()
+        // console.log(res)
+        return res.data;
+      } catch (err) {
+        data.showErrorMessage("Что то не так...")
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
+  export const getDirectionById = createAsyncThunk(
+    "getActionReducer/getDirectionById",
+    async (data) => {
+      try {
+        const res = await requests.getDirectionById(data);
+        // console.log(res)
+        return res.data;
+      } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
+  export const deleteDirectionById = createAsyncThunk(
+    "getActionReducer/deleteDirectionById",
+    async (data) => {
+      try {
+        const res = await requests.deleteDirectionById(data.id);
+        data.updateHomePage()
+        data.closeCard()
+        // console.log(res)
+        return res.data;
+      } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
 const actionApiSlice = createSlice({
   name: "getActionReducer",
   initialState,
@@ -80,7 +123,16 @@ const actionApiSlice = createSlice({
       state.error = true;
       state.loading = false;
     },
-
+    [getDirectionById.pending]: (state) => {
+      state.error = false;
+    },
+    [getDirectionById.fulfilled]: (state, action) => {
+      state.directionById = action.payload;
+      state.error = false;
+    },
+    [getDirectionById.rejected]: (state) => {
+      state.error = true;
+    },
     [getSource.pending]: (state) => {
       state.error = false;
       state.loading = true;

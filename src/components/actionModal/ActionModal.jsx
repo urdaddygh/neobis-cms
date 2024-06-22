@@ -2,7 +2,7 @@ import React from 'react'
 import s from './styles.module.css'
 import { Modal } from '../modal/Modal'
 import { archive_icon, cross_icon, pen_icon, trash_icon } from '../../Images'
-const ActionModal = ({ active, setActive, closeModal, onChangeClick, onArchiveClick, onDeleteClick }) => {
+const ActionModal = ({ active, setActive, closeModal, onChangeClick, onDeleteClick, onArchiveClick }) => {
     return (
       <Modal active={active} setActive={setActive} height="275px">
         <div className={s.cross_icon} onClick={closeModal}>

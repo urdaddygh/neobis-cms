@@ -9,7 +9,6 @@ const ModalForAdditionalInfo = ({
   closeModal,
   openChangeModal,
   addToStudent,
-  onArchiveClick,
   deleteApplication,
   signUpTrialLesson,
   attendedTrialLesson,
@@ -28,10 +27,6 @@ const ModalForAdditionalInfo = ({
         <div className={s.box_btn} onClick={deleteApplication}>
           <img src={trash_icon} alt="Удалить" />
           <p>Удалить</p>
-        </div>
-        <div className={s.box_btn} onClick={onArchiveClick}>
-          <img src={archive_icon} alt="В архив" />
-          <p>В архив</p>
         </div>
       </div>
 

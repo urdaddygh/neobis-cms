@@ -170,7 +170,6 @@ const TrialLesson = () => {
         closeModal={closeCard}
         openChangeModal={() => setModalChangeActive(true)}
         addToStudent={()=>addToStudentClick(applications.applicationByIdInfo.id)}
-        onArchiveClick={() => archiveApplication(applications.applicationByIdInfo.id)}
         deleteApplication={() =>
           deleteApplication(applications.applicationByIdInfo.id)
         }

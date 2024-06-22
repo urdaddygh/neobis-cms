@@ -52,7 +52,7 @@ const FilterModal = ({modalActive, setModalActive, closeModal}) => {
     let data={q:selectedFilter}
     dispatch(getApplicationBySearch(data))
   };
-  console.log(selectedFilter);
+  // console.log(selectedFilter);
 
   return (
     <Modal

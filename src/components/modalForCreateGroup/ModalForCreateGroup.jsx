@@ -28,7 +28,7 @@ const ModalForCreateGroup = ({ active, setActive, closeModal }) => {
   }, []);
 
   const teachersInfo = useSelector((state) => state.employee.employeeInfo);
-  console.log(teachersInfo);
+  // console.log(teachersInfo);
 
   const [teachers, setTeachers] = useState([]);
   const updateHomePage = () => {

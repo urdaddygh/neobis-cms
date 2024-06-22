@@ -79,6 +79,24 @@ export const getApplicationById = createAsyncThunk(
       }
     }
   );
+  export const unarchiveApplicationById = createAsyncThunk(
+    "getApplicationReducer/unarchiveApplicationById",
+    async (data) => {
+      try {
+        console.log(data)
+        const res = await requests.unarchiveApplicationById(data.id);
+        data.updateHomePage()
+        data.closeCard()
+        data.showSuccessMessage("Карточка успешно разархивирована")
+        return res.data;
+      } catch (err) {
+        if(err.response.data.error){
+          data.showErrorMessage("Карточка уже была разархивирована")
+        }
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
   export const putApplicationById = createAsyncThunk(
     "getApplicationReducer/putApplicationById",
     async (data) => {
