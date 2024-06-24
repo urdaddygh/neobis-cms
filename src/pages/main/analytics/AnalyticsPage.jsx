@@ -15,7 +15,7 @@ const AnalyticsPage = () => {
         datasets: [
           {
             label: 'Количество студентов',
-            data: [600, 2000, 1180, 621, 1421, 1021],
+            data: [20, 15, 10, 4, 15, 30],
             backgroundColor: [
               '#FFA500', // оранжевый для IOS
               '#32CD32', // зеленый для UX/UI design
@@ -66,7 +66,7 @@ const AnalyticsPage = () => {
       <h2 style={{textAlign:"center", margin:"0 0 40px 0", color:"white"}}>Популярность курсов</h2>
       <Doughnut data={data} options={options} />
       <div style={{ textAlign: 'center', fontSize: '24px', fontWeight: 'bold' }}>
-        <div style={{color:"white"}}>12 300</div>
+        <div style={{color:"white"}}>94</div>
         <p style={{color:"white"}}>Кол-во студентов</p>
       </div>
     </div>
