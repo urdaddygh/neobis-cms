@@ -252,13 +252,13 @@ export const requests = {
       },
     }),
   getEmployeeBySearch: (data) =>
-    fetchAPI.get(`application/global-search/?q=${data.q}/model_type=teacher`, {
+    fetchAPI.get(`application/global-search/?q=${data.q}&model_type=teacher`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
   getStudentsBySearch: (data) =>
-    fetchAPI.get(`application/global-search/?q=${data.q}/model_type=student`, {
+    fetchAPI.get(`application/global-search/?q=${data.q}&model_type=student`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -324,7 +324,7 @@ export const requests = {
       },
     }),
   createGroup: (data) =>
-    fetchAPI.post(`groups/`, data, {
+    fetchAPI.post(`groups`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },

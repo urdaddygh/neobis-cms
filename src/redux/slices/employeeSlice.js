@@ -44,6 +44,7 @@ export const addTeacher = createAsyncThunk(
 export const getEmployeeBySearch = createAsyncThunk(
     "employeeReducer/getEmployeeBySearch",
     async (data) => {
+      console.log(data)
       try {
         const res = await requests.getEmployeeBySearch(data);
         console.log(res)

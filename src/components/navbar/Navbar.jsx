@@ -95,7 +95,15 @@ export const Navbar=({ name, username, className, first_name })=> {
             Архив
             <span className={s.bottom_curve}></span>
           </NavLink>
-
+          <NavLink
+            to="/main/analytics"
+            className={linkActiveClassName("analytics")}
+          >
+            <span className={s.top_curve}></span>
+            <img src={archive_mini_icon} alt="" style={{marginRight:"10px"}} />
+            Аналитика
+            <span className={s.bottom_curve}></span>
+          </NavLink>
           <NavLink to="/" className={s.exit} onClick={removeRole}>
             Выйти
           </NavLink>

@@ -46,7 +46,6 @@ const WaitingCall = () => {
     dispatch(getApplicationByStatus("1"))
   },[])
   const applications=useSelector(state=>state.applications);
-  // console.log(applications)
   const updateHomePage=()=>{
     const currentParentPath = location.pathname.split("/")[3];
     if(currentParentPath==='waiting'){

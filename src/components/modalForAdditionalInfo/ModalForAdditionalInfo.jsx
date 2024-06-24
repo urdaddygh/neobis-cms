@@ -15,7 +15,7 @@ const ModalForAdditionalInfo = ({
   unsuccessfulDealsClick
 }) => {
   return (
-    <Modal active={active} setActive={setActive} height="65%">
+    <Modal active={active} setActive={setActive} height="65%" width="330px">
       <div className={s.cross_icon}>
         <img src={cross_icon} alt="" onClick={closeModal} />
       </div>
@@ -29,14 +29,29 @@ const ModalForAdditionalInfo = ({
           <p>Удалить</p>
         </div>
       </div>
-
-      <h3>Переместить в:</h3>
-      <p className={s.text_btn} onClick={signUpTrialLesson}>Записан на пробный урок</p>
-      <p className={s.text_btn} onClick={attendedTrialLesson}>Посетил пробный урок </p>
-      <p className={s.text_btn} onClick={addToStudent}>
-        Студенты
-      </p>
-      <p className={s.text_btn} onClick={unsuccessfulDealsClick}>Неуспешные сделки</p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{margin:"0 auto"}}>
+          <h3>Переместить в:</h3>
+          <p className={s.text_btn} onClick={signUpTrialLesson}>
+            Записан на пробный урок
+          </p>
+          <p className={s.text_btn} onClick={attendedTrialLesson}>
+            Посетил пробный урок 
+          </p>
+          <p className={s.text_btn} onClick={addToStudent}>
+            Студенты
+          </p>
+          <p className={s.text_btn} onClick={unsuccessfulDealsClick}>
+            Неуспешные сделки
+          </p>
+        </div>
+      </div>
     </Modal>
   );
 };
