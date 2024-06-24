@@ -12,14 +12,24 @@ export const getApplicationByStatus = createAsyncThunk(
   "getApplicationReducer/getApplicationByStatus",
   async (data) => {
     try {
-      const res = await requests.getApplicationByStatus(data);
+      const res = await requests.getApplicationByStatus(data, data.page);
       return res.data;
     } catch (err) {
       throw new Error(err, "errrrrrrr");
     }
   }
 );
-
+export const getApplicationForPagination = createAsyncThunk(
+  "getApplicationReducer/getApplicationForPagination",
+  async (data) => {
+    try {
+      const res = await requests.getApplicationForPagination(data);
+      return res.data;
+    } catch (err) {
+      throw new Error(err, "errrrrrrr");
+    }
+  }
+);
 export const getApplicationById = createAsyncThunk(
     "getApplicationReducer/getApplicationById",
     async (data) => {
@@ -167,7 +177,21 @@ const applicationApiSlice = createSlice({
       state.error = true;
       state.loading = false;
     },
-    
+
+    [getApplicationForPagination.pending]: (state) => {
+      state.error = false;
+      state.loading = true;
+    },
+    [getApplicationForPagination.fulfilled]: (state, action) => {
+      state.applicationsInfo = action.payload;
+      state.error = false;
+      state.loading = false;
+    },
+    [getApplicationForPagination.rejected]: (state) => {
+      state.error = true;
+      state.loading = false;
+    },
+
     [getApplicationBySearch.pending]: (state) => {
         state.error = false;
         state.loading = true;

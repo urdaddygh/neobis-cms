@@ -97,12 +97,18 @@ export const requests = {
       },
     }),
 
-  getApplicationByStatus: (data) =>
-    fetchAPI.get(`application/?status=${data}`, {
+  getApplicationByStatus: (data, page=1) =>
+    fetchAPI.get(`application/?status=${data}&page=${page}`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+    getApplicationForPagination: (data) =>
+      fetchAPI.get(`${data}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("access")}`,
+        },
+      }),
   getApplicationById: (data) =>
     fetchAPI.get(`application/${data}/`, {
       headers: {
@@ -204,25 +210,31 @@ export const requests = {
     ),
 
   getEmployee: () =>
-    fetchAPI.get(`users/all_staff/?limit=10&is_archive=False`, {
+    fetchAPI.get(`users/all_staff/?limit=5&is_archive=False`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
   getStudents: () =>
-    fetchAPI.get(`students/?limit=10&is_archive=False`, {
+    fetchAPI.get(`students/?limit=5&is_archive=False`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
+    getStudentsForPagination: (data) =>
+      fetchAPI.get(`${data}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("access")}`,
+        },
+      }),
     getArchiveStudents: () =>
-    fetchAPI.get(`students/?limit=10&is_archive=True`, {
+    fetchAPI.get(`students/?limit=5&is_archive=True`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
     getArchiveEmployee: () =>
-    fetchAPI.get(`users/all_staff/?limit=10&is_archive=True`, {
+    fetchAPI.get(`users/all_staff/?limit=5&is_archive=True`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -234,7 +246,7 @@ export const requests = {
       },
     }),
   getEmployeeById: (data) =>
-    fetchAPI.get(`users/all_staff/${data}/?limit=10`, {
+    fetchAPI.get(`users/all_staff/${data}/?limit=5`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
@@ -252,13 +264,13 @@ export const requests = {
       },
     }),
   getTeachers: () =>
-    fetchAPI.get(`teachers/?limit=10&is_archive=False`, {
+    fetchAPI.get(`teachers/?limit=5&is_archive=False`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },
     }),
   getMeneger: () =>
-    fetchAPI.get(`office_managers/?limit=10&is_archive=False`, {
+    fetchAPI.get(`office_managers/?limit=5&is_archive=False`, {
       headers: {
         Authorization: `Bearer ${getCookie("access")}`,
       },

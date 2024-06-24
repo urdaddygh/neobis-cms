@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import s from "./Pagination.module.css";
 import { arrow_left, arrow_right } from "../../Images";
 
-export const Pagination = ({ page, take, previous, next, takeTwo,count }) => {
+export const Pagination = ({ page, take, previous, next, takeTwo, count }) => {
   const dispatch = useDispatch();
 
-  let totalPages = Math.ceil(count / 32) 
+  let totalPages = Math.ceil(count / 9) 
   const pagination = (next) => {
     dispatch(take(next));
   };
@@ -23,7 +23,7 @@ export const Pagination = ({ page, take, previous, next, takeTwo,count }) => {
         <div
           key={index}
           className={page===index+1?s.pagination_box:s.pagination_unactive}
-          onClick={() => dispatch(takeTwo(index + 1))}
+          // onClick={() => dispatch(takeTwo(index + 1))}
         >
           {index + 1}
         </div>

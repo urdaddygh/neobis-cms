@@ -32,6 +32,17 @@ export const getGroups = createAsyncThunk(
       }
     }
   );
+  export const getStudentsForPagination = createAsyncThunk(
+    "getGroupsReducer/getStudentsForPagination",
+    async (data) => {
+      try {
+        const res = await requests.getStudentsForPagination(data);
+        return res.data;
+      } catch (err) {
+        throw new Error(err, "errrrrrrr");
+      }
+    }
+  );
   export const getStudentById = createAsyncThunk(
     "getGroupsReducer/getStudentById",
     async (data) => {
@@ -169,6 +180,21 @@ const groupsApiSlice = createSlice({
       state.error = true;
       state.loading = false;
     },
+
+    [getStudentsForPagination.pending]: (state) => {
+      state.error = false;
+      state.loading = true;
+    },
+    [getStudentsForPagination.fulfilled]: (state, action) => {
+      state.studentsInfo = action.payload;
+      state.error = false;
+      state.loading = false;
+    },
+    [getStudentsForPagination.rejected]: (state) => {
+      state.error = true;
+      state.loading = false;
+    },
+
 
     [getStudentsBySearch.pending]: (state) => {
       state.error = false;

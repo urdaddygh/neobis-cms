@@ -87,7 +87,7 @@ export const Navbar=({ name, username, className, first_name })=> {
             <span className={s.bottom_curve}></span>
           </NavLink>
           <NavLink
-            to="/main/archive/groups"
+            to="/main/archive/students"
             className={linkActiveClassName("archive")}
           >
             <span className={s.top_curve}></span>

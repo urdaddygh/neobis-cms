@@ -6,6 +6,7 @@
 
 .pagination div{
     margin-right: 8px;
+    margin-left: 8px;
 }
 .pagination_box{
     width: 32px;
@@ -14,7 +15,7 @@
     font-weight: 500;
     font-size: 14px;
     color: #fff;
-    background: #5458EA;
+    background: var(--secondary-color);
     text-align: center;
     align-items: center;
     display: flex;
@@ -39,6 +40,7 @@
 }
 .pagination_box:active {
     background: #5458EA;
+
 }
 
 .vector_img{
@@ -50,6 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: white;
 }
 .opacity{
     opacity: 30%;

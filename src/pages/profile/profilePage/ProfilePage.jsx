@@ -88,9 +88,8 @@ function ProfilePage({ApiUserInfo}) {
 
   useEffect(() => {
      if (formik.errors.email) showToErrMessage(formik.errors.email);
-    else if (formik.errors.first_name)
-      showToErrMessage(formik.errors.first_name);
-    else if (formik.errors.last_name) showToErrMessage(formik.errors.last_name);
+    else if (formik.errors.full_name)
+      showToErrMessage(formik.errors.full_name);
   }, [formik.errors]);
 
   return (

@@ -11,10 +11,11 @@ import ActionModal from "../../../components/actionModal/ActionModal";
 import ModalForCreateStudentInGroup from "../../../components/modalForCreateStudentInGroup/ModalForCreateStudentInGroup";
 import ModalForCreateGroup from "../../../components/modalForCreateGroup/ModalForCreateGroup";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteStudentById, getGroups, getStudentById, getStudents, getStudentsBySearch } from "../../../redux/slices/groupsSlice";
+import { deleteStudentById, getGroups, getStudentById, getStudents, getStudentsBySearch, getStudentsForPagination } from "../../../redux/slices/groupsSlice";
 import ModalForChangeStudent from "../../../components/modalForChangeStudent/ModalForChangeStudent";
 import { archiveApplicationById } from "../../../redux/slices/applicationSlice";
 import { toast } from "react-toastify";
+import { Pagination } from "../../../components/pagination/Pagination";
 const GroupPage = () => {
   const [modalActive, setModalActive] = useState(false);
   const [modalActionActive, setModalActionActive] = useState(false);
@@ -184,7 +185,15 @@ const GroupPage = () => {
         ) : (
           <p className="error">Непредвиденная ошибка</p>
         )}
-
+<div className="cont_pagination">
+        <Pagination
+          count={groupsInfo.studentsInfo?.count}
+          next={groupsInfo.studentsInfo?.next}
+          previous={groupsInfo.studentsInfo?.previous}
+          page={groupsInfo.studentsInfo?.page}
+          take={getStudentsForPagination}
+        />
+      </div>
         <ActionModal
           active={modalActionActive}
           onChangeClick={() => setModalChangeGroupActive(true)}

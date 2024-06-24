@@ -7,7 +7,7 @@ import { cross_icon } from '../../Images';
 import Input from '../input/Input';
 import { useDispatch } from 'react-redux';
 import { getEmployee } from '../../redux/slices/employeeSlice';
-import { createStudent } from '../../redux/slices/groupsSlice';
+import { createStudent, getStudents } from '../../redux/slices/groupsSlice';
 const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
 
   const dispatch = useDispatch()
@@ -26,7 +26,7 @@ const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
     });
   };
   const updateHomePage=()=>{
-    dispatch(getEmployee())
+    dispatch(getStudents())
   }
     
       const formik = useFormik({
@@ -39,7 +39,7 @@ const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
           first_name: "",
           phone: "",
           email: "",
-          // payed:"0",
+          payed:"",
         },
         onSubmit: (values, actions) => {
           let data = {values, actions, updateHomePage, showSuccessMessage, showErrorMessage }
@@ -49,7 +49,7 @@ const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
       });
     
   return (
-    <Modal active={active} setActive={setActive} height="80%" width="420px">
+    <Modal active={active} setActive={setActive} height="70%" width="420px">
     <div >
       <p className="modal_up_p">Создание студента</p>
       <img src={cross_icon} alt="" className="modal_cross_icon" onClick={closeModal}/>
@@ -88,14 +88,14 @@ const ModalForCreateStudentInGroup = ({ active, setActive, closeModal }) => {
           onChange={formik.handleChange}
           value={formik.values.phone}
         />
-         <Input
+         {/* <Input
           type='number'
           valueLabel="Оплачено"
           onChange={formik.handleChange}
           value={formik.values.payed}
           margin="10px 0"
           name="payed"
-        />
+        /> */}
        
       </div>
       <button

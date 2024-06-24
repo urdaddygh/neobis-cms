@@ -9,9 +9,10 @@ import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForA
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { addToStudentById, archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
+import { addToStudentById, archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, getApplicationForPagination, putApplicationById } from "../../../redux/slices/applicationSlice";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import { Pagination } from "../../../components/pagination/Pagination";
 
 const TrialLesson = () => {
   const dispatch = useDispatch();
@@ -164,6 +165,15 @@ const TrialLesson = () => {
       ) : (
         <p className="error">Непредвиденная ошибка</p>
       )}
+       <div className="cont_pagination">
+        <Pagination
+          count={applications.applicationsInfo?.count}
+          next={applications.applicationsInfo?.next}
+          previous={applications.applicationsInfo?.previous}
+          page={applications.applicationsInfo?.page}
+          take={getApplicationForPagination}
+        />
+      </div>
        <ModalForAdditionalInfo
         active={modalActive}
         setActive={setModalActive}

@@ -97,7 +97,7 @@ const EmployeePage = () => {
     });
 
     const employee = useSelector(state=>state.employee)
-    // console.log(employee)
+    console.log(employee)
 
     const onCardClick=(id, role)=>{
       console.log(id, role)

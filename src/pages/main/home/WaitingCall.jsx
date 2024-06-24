@@ -8,10 +8,11 @@ import FilterModal from "../../../components/filterModal/FilterModal";
 import ModalForAddStudent from "../../../components/modalForAddStudent/ModalForAddStudent";
 import ModalForArchivated from "../../../components/modalForArchivated/ModalForArchivated";
 import { useDispatch, useSelector } from "react-redux";
-import { addToStudentById, archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, putApplicationById } from "../../../redux/slices/applicationSlice";
+import { addToStudentById, archiveApplicationById, deleteApplicationById, getApplicationById, getApplicationBySearch, getApplicationByStatus, getApplicationForPagination, putApplicationById } from "../../../redux/slices/applicationSlice";
 import { useFormik } from "formik";
 import { useLocation } from "react-router-dom";
 import {  toast } from "react-toastify";
+import { Pagination } from "../../../components/pagination/Pagination";
 const WaitingCall = () => {
   const [modalActive, setModalActive] = useState(false);
   const [modalFilterActive, setModalFilterActive] = useState(false);
@@ -45,6 +46,7 @@ const WaitingCall = () => {
     dispatch(getApplicationByStatus("1"))
   },[])
   const applications=useSelector(state=>state.applications);
+  // console.log(applications)
   const updateHomePage=()=>{
     const currentParentPath = location.pathname.split("/")[3];
     if(currentParentPath==='waiting'){
@@ -167,19 +169,35 @@ const WaitingCall = () => {
       ) : (
         <p className="error">Непредвиденная ошибка</p>
       )}
-
+      <div className="cont_pagination">
+        <Pagination
+          count={applications.applicationsInfo?.count}
+          next={applications.applicationsInfo?.next}
+          previous={applications.applicationsInfo?.previous}
+          page={applications.applicationsInfo?.page}
+          take={getApplicationForPagination}
+        />
+      </div>
       <ModalForAdditionalInfo
         active={modalActive}
         setActive={setModalActive}
         closeModal={closeCard}
         openChangeModal={() => setModalChangeActive(true)}
-        addToStudent={()=>addToStudentClick(applications.applicationByIdInfo.id)}
+        addToStudent={() =>
+          addToStudentClick(applications.applicationByIdInfo.id)
+        }
         deleteApplication={() =>
           deleteApplication(applications.applicationByIdInfo.id)
         }
-        signUpTrialLesson={()=>signUpTrialLesson(applications.applicationByIdInfo.id)}
-        attendedTrialLesson={()=>attendedTrialLesson(applications.applicationByIdInfo.id)}
-        unsuccessfulDealsClick={()=>addToUnsuccessfulDeal(applications.applicationByIdInfo.id)}
+        signUpTrialLesson={() =>
+          signUpTrialLesson(applications.applicationByIdInfo.id)
+        }
+        attendedTrialLesson={() =>
+          attendedTrialLesson(applications.applicationByIdInfo.id)
+        }
+        unsuccessfulDealsClick={() =>
+          addToUnsuccessfulDeal(applications.applicationByIdInfo.id)
+        }
       />
       <ModalForChangeProduct
         active={modalChangeActive}
